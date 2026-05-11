@@ -7,43 +7,31 @@ use Illuminate\Http\Request;
 
 class ShowController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Show::orderBy('date', 'asc')->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $show = Show::create($request->all());
+        return response()->json($show, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Show $show)
     {
-        //
+        return response()->json($show);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Show $show)
     {
-        //
+        $show->update($request->all());
+        return response()->json($show);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Show $show)
     {
-        //
+        $show->delete();
+        return response()->json(null, 204);
     }
 }

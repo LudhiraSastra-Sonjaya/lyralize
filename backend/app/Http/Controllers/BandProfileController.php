@@ -7,43 +7,26 @@ use Illuminate\Http\Request;
 
 class BandProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(BandProfile::first() ?? new BandProfile());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(Request $request)
     {
-        //
-    }
+        $profile = BandProfile::first();
+        
+        $data = $request->except('hero_video_file');
+        if ($request->hasFile('hero_video_file')) {
+            $path = $request->file('hero_video_file')->store('profile', 'public');
+            $data['hero_video_url'] = url('storage/' . $path);
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(BandProfile $bandProfile)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BandProfile $bandProfile)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(BandProfile $bandProfile)
-    {
-        //
+        if ($profile) {
+            $profile->update($data);
+        } else {
+            $profile = BandProfile::create($data);
+        }
+        return response()->json($profile);
     }
 }

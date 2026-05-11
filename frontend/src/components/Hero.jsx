@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import api from '../services/api';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,25 +10,47 @@ const Hero = () => {
   const textRef = useRef(null);
   const subTextRef = useRef(null);
   const imageRef = useRef(null);
+  
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await api.get('/band-profile');
+        setProfile(response.data);
+      } catch (error) {
+        console.error('Failed to fetch band profile', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    if (loading) return;
+
     const ctx = gsap.context(() => {
       // Intro Animation
       const tl = gsap.timeline();
       
+      if (textRef.current?.children) {
+        tl.fromTo(
+          textRef.current.children,
+          { y: 150, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            stagger: 0.1,
+            ease: 'power4.out',
+            delay: 0.5,
+          }
+        );
+      }
+      
       tl.fromTo(
-        textRef.current.children,
-        { y: 150, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          stagger: 0.1,
-          ease: 'power4.out',
-          delay: 0.5,
-        }
-      )
-      .fromTo(
         subTextRef.current,
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
@@ -66,7 +89,11 @@ const Hero = () => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [loading, profile]);
+
+  const bandName = profile?.name || 'LANTERNE';
+  const nameLetters = bandName.split('');
+  const bgUrl = profile?.hero_video_url || 'https://images.unsplash.com/photo-1493225457124-a1a2a5f5c937?q=80&w=2000&auto=format&fit=crop';
 
   return (
     <section
@@ -77,7 +104,8 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <div 
           ref={imageRef}
-          className="w-full h-full bg-[url('https://images.unsplash.com/photo-1493225457124-a1a2a5f5c937?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-60 mix-blend-luminosity"
+          className="w-full h-full bg-cover bg-center opacity-60 mix-blend-luminosity"
+          style={{ backgroundImage: `url('${bgUrl}')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050816]/50 to-[#050816]" />
       </div>
@@ -88,21 +116,16 @@ const Hero = () => {
           ref={textRef}
           className="text-[14vw] md:text-[12vw] font-distorted font-normal uppercase leading-[0.8] tracking-widest flex overflow-hidden justify-center mix-blend-screen text-[#8B5CF6] blur-[1px] hover:blur-0 transition-all duration-700"
         >
-          <span className="block">L</span>
-          <span className="block">A</span>
-          <span className="block">N</span>
-          <span className="block">T</span>
-          <span className="block">E</span>
-          <span className="block">R</span>
-          <span className="block">N</span>
-          <span className="block">E</span>
+          {!loading && nameLetters.map((letter, i) => (
+            <span key={i} className="block">{letter === ' ' ? '\u00A0' : letter}</span>
+          ))}
         </h1>
         
         <p
           ref={subTextRef}
           className="mt-8 text-sm md:text-lg tracking-[0.4em] uppercase text-gray-300 font-display blur-[0.5px]"
         >
-          Cinematic Soundscape Collective
+          {profile?.bio || 'Cinematic Soundscape Collective'}
         </p>
       </div>
 

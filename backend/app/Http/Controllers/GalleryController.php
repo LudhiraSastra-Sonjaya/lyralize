@@ -7,43 +7,45 @@ use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Gallery::orderBy('order', 'asc')->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('image');
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('gallery', 'public');
+            $data['image_url'] = url('storage/' . $path);
+        } else if (!$request->has('image_url')) {
+            $data['image_url'] = ''; // fallback
+        }
+
+        $gallery = Gallery::create($data);
+        return response()->json($gallery, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Gallery $gallery)
     {
-        //
+        return response()->json($gallery);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Gallery $gallery)
     {
-        //
+        $data = $request->except('image');
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('gallery', 'public');
+            $data['image_url'] = url('storage/' . $path);
+        }
+
+        $gallery->update($data);
+        return response()->json($gallery);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Gallery $gallery)
     {
-        //
+        $gallery->delete();
+        return response()->json(null, 204);
     }
 }

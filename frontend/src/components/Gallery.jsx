@@ -1,25 +1,33 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import api from '../services/api';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const images = [
-  'https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1493225457124-a1a2a5f5c937?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1516280440503-62f8087961b5?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1518972553051-7ef118a8b111?q=80&w=800&auto=format&fit=crop'
-];
 
 const Gallery = () => {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await api.get('/gallery');
+        setImages(response.data);
+      } catch (error) {
+        console.error('Failed to fetch gallery', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGallery();
+  }, []);
+
+  useEffect(() => {
+    if (loading || images.length === 0) return;
+
     const ctx = gsap.context(() => {
       const getScrollAmount = () => {
         let containerWidth = containerRef.current.scrollWidth;
@@ -57,30 +65,36 @@ const Gallery = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [loading, images]);
 
   return (
-    <section ref={sectionRef} id="gallery" className="w-full h-screen bg-[#0F172A] overflow-hidden flex items-center">
+    <section ref={sectionRef} id="gallery" className="w-full h-screen bg-[#0F172A] overflow-hidden flex items-center relative">
       <div className="absolute top-12 left-6 md:left-12 z-10 mix-blend-difference">
         <h2 className="text-3xl md:text-5xl font-display font-bold uppercase text-white tracking-tighter">Documentation</h2>
       </div>
       
-      <div ref={containerRef} className="flex gap-8 md:gap-16 px-6 md:px-32 w-max items-center h-[60vh]">
-        {images.map((src, index) => (
-          <div 
-            key={index} 
-            className={`relative overflow-hidden flex-shrink-0 ${index % 2 === 0 ? 'w-[60vw] md:w-[35vw] h-[50vh] md:h-[60vh]' : 'w-[50vw] md:w-[25vw] h-[40vh] md:h-[50vh] mt-24'}`}
-          >
-            <div className="absolute inset-[-20%] w-[140%] h-full">
-              <img 
-                src={src} 
-                alt={`Gallery ${index}`} 
-                className="gallery-img w-full h-full object-cover grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
-              />
+      {loading ? (
+        <div className="w-full flex justify-center text-[#8B5CF6] font-display animate-pulse text-xl">Loading Memory...</div>
+      ) : images.length === 0 ? (
+        <div className="w-full flex justify-center text-gray-500 font-sans tracking-widest uppercase">No photos available.</div>
+      ) : (
+        <div ref={containerRef} className="flex gap-8 md:gap-16 px-6 md:px-32 w-max items-center h-[60vh]">
+          {images.map((imgObj, index) => (
+            <div 
+              key={imgObj.id} 
+              className={`relative overflow-hidden flex-shrink-0 ${index % 2 === 0 ? 'w-[60vw] md:w-[35vw] h-[50vh] md:h-[60vh]' : 'w-[50vw] md:w-[25vw] h-[40vh] md:h-[50vh] mt-24'}`}
+            >
+              <div className="absolute inset-[-20%] w-[140%] h-full">
+                <img 
+                  src={imgObj.image_url} 
+                  alt={imgObj.caption || `Gallery ${index}`} 
+                  className="gallery-img w-full h-full object-cover grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+                />
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 };

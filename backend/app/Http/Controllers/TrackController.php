@@ -7,43 +7,31 @@ use Illuminate\Http\Request;
 
 class TrackController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Track::with('album')->orderBy('track_number')->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $track = Track::create($request->all());
+        return response()->json($track->load('album'), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Track $track)
     {
-        //
+        return response()->json($track->load('album'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Track $track)
     {
-        //
+        $track->update($request->all());
+        return response()->json($track->load('album'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Track $track)
     {
-        //
+        $track->delete();
+        return response()->json(null, 204);
     }
 }
