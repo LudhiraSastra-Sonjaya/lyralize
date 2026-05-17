@@ -1,96 +1,147 @@
+import { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ShoppingBag, Calendar, Image as ImageIcon, Music, Users, MessageSquare, LogOut, Disc3 } from 'lucide-react';
+import {
+  LayoutDashboard, ShoppingBag, Calendar, Image as ImageIcon,
+  Music, Users, MessageSquare, LogOut, Disc3, Menu, X
+} from 'lucide-react';
 import api from '../services/api';
+
+const navItems = [
+  { name: 'Dashboard',    path: '/admin',             icon: <LayoutDashboard size={18} />, exact: true, num: '01' },
+  { name: 'Albums',       path: '/admin/albums',       icon: <Disc3 size={18} />,           num: '02' },
+  { name: 'Tracks',       path: '/admin/tracks',       icon: <Music size={18} />,           num: '03' },
+  { name: 'Shows',        path: '/admin/shows',        icon: <Calendar size={18} />,        num: '04' },
+  { name: 'Merch',        path: '/admin/merch',        icon: <ShoppingBag size={18} />,     num: '05' },
+  { name: 'Gallery',      path: '/admin/gallery',      icon: <ImageIcon size={18} />,       num: '06' },
+  { name: 'Messages',     path: '/admin/messages',     icon: <MessageSquare size={18} />,   num: '07' },
+  { name: 'Band Profile', path: '/admin/band-profile', icon: <Users size={18} />,           num: '08' },
+];
 
 const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
-    try {
-      await api.post('/auth/logout');
-      localStorage.removeItem('token');
-      navigate('/admin/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-      localStorage.removeItem('token');
-      navigate('/admin/login');
-    }
+    try { await api.post('/auth/logout'); } catch (e) { console.error(e); }
+    localStorage.removeItem('token');
+    navigate('/admin/login');
   };
 
-  const navItems = [
-    { name: 'Dashboard', path: '/admin', icon: <LayoutDashboard size={20} />, exact: true },
-    { name: 'Albums', path: '/admin/albums', icon: <Disc3 size={20} /> },
-    { name: 'Tracks', path: '/admin/tracks', icon: <Music size={20} /> },
-    { name: 'Shows', path: '/admin/shows', icon: <Calendar size={20} /> },
-    { name: 'Merch', path: '/admin/merch', icon: <ShoppingBag size={20} /> },
-    { name: 'Gallery', path: '/admin/gallery', icon: <ImageIcon size={20} /> },
-    { name: 'Messages', path: '/admin/messages', icon: <MessageSquare size={20} /> },
-    { name: 'Band Profile', path: '/admin/band-profile', icon: <Users size={20} /> },
-  ];
+  const currentPage = location.pathname.split('/').filter(Boolean).pop()?.replace('-', ' ') || 'Dashboard';
+
+  const SidebarContent = () => (
+    <>
+      {/* Logo */}
+      <div className="h-16 md:h-20 flex items-center px-6 border-b border-[#C8C0A8] shrink-0">
+        <Link to="/admin" className="flex flex-col leading-none" onClick={() => setSidebarOpen(false)}>
+          <span className="text-[#0C1B4D]" style={{ fontFamily: '"Drowner Free", serif', fontSize: '1.5rem' }}>
+            Lyralize
+          </span>
+          <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-[#4A6090] mt-0.5">
+            Control Room
+          </span>
+        </Link>
+      </div>
+
+      {/* Nav */}
+      <div className="flex-1 overflow-y-auto py-4">
+        <nav className="space-y-0.5 px-3">
+          {navItems.map((item) => {
+            const isActive = item.exact
+              ? location.pathname === item.path
+              : location.pathname.startsWith(item.path);
+            return (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setSidebarOpen(false)}
+                className={`group flex items-center gap-3 px-3 py-2.5 rounded transition-colors ${
+                  isActive
+                    ? 'bg-[#1E3FA8]/10 text-[#1E3FA8] border-l-2 border-[#1E3FA8]'
+                    : 'text-[#4A6090] hover:text-[#0C1B4D] hover:bg-[#0C1B4D]/5'
+                }`}
+              >
+                <span className="font-mono text-[9px] opacity-40 shrink-0">// {item.num}</span>
+                <span className="shrink-0">{item.icon}</span>
+                <span className="font-mono text-sm">{item.name}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Logout */}
+      <div className="p-4 border-t border-[#C8C0A8] shrink-0">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded text-[#4A6090] hover:text-red-600 hover:bg-red-50 transition-colors"
+        >
+          <LogOut size={18} />
+          <span className="font-mono text-sm">Logout</span>
+        </button>
+      </div>
+    </>
+  );
 
   return (
-    <div className="flex h-screen bg-[#050508] text-[#E2E8F0] overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#0F0F1A] border-r border-white/5 flex flex-col">
-        <div className="h-16 flex items-center px-6 border-b border-white/5">
-          <Link to="/admin" className="text-xl font-display font-bold tracking-tighter uppercase text-[#8B5CF6]">
-            Lanterne Admin
-          </Link>
-        </div>
-        
-        <div className="flex-1 overflow-y-auto py-6">
-          <nav className="space-y-1 px-3">
-            {navItems.map((item) => {
-              const isActive = item.exact 
-                ? location.pathname === item.path
-                : location.pathname.startsWith(item.path);
-                
-              return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
-                    isActive 
-                      ? 'bg-[#8B5CF6]/10 text-[#8B5CF6]' 
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {item.icon}
-                  <span className="font-medium text-sm">{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-        
-        <div className="p-4 border-t border-white/5">
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors"
-          >
-            <LogOut size={20} />
-            <span className="font-medium text-sm">Logout</span>
-          </button>
-        </div>
+    <div className="flex h-screen bg-[#F0EBE0] text-[#0C1B4D] overflow-hidden">
+
+      {/* ── Desktop Sidebar ── */}
+      <aside className="hidden md:flex w-64 bg-[#E8E2D0] border-r border-[#C8C0A8] flex-col shrink-0">
+        <SidebarContent />
       </aside>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden relative">
-        {/* Topbar */}
-        <header className="h-16 bg-[#050508]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-8 z-10">
-          <h2 className="text-lg font-medium text-gray-200 capitalize">
-            {location.pathname.split('/').filter(Boolean).pop()?.replace('-', ' ') || 'Dashboard'}
-          </h2>
-          <div className="flex items-center gap-4">
-            <Link to="/" target="_blank" className="text-sm text-gray-400 hover:text-white transition-colors">
-              View Site ↗
-            </Link>
+      {/* ── Mobile Sidebar Overlay ── */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-[#0C1B4D]/30 backdrop-blur-sm md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      <aside className={`fixed top-0 left-0 z-50 h-full w-72 bg-[#E8E2D0] border-r border-[#C8C0A8] flex flex-col transform transition-transform duration-300 md:hidden ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="absolute top-4 right-4">
+          <button onClick={() => setSidebarOpen(false)} className="text-[#4A6090] hover:text-[#0C1B4D] p-1">
+            <X size={20} />
+          </button>
+        </div>
+        <SidebarContent />
+      </aside>
+
+      {/* ── Main Content ── */}
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+
+        {/* Header */}
+        <header className="h-16 md:h-20 bg-[#F0EBE0] border-b border-[#C8C0A8] flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Hamburger — mobile only */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden text-[#4A6090] hover:text-[#0C1B4D] p-1 shrink-0"
+            >
+              <Menu size={22} />
+            </button>
+            <div className="min-w-0">
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#1E3FA8]">// Admin</span>
+              <h2
+                className="text-[#0C1B4D] capitalize leading-none mt-0.5 truncate"
+                style={{ fontFamily: '"Drowner Free", serif', fontSize: 'clamp(1.2rem, 3vw, 1.8rem)' }}
+              >
+                {currentPage}
+              </h2>
+            </div>
           </div>
+          <Link
+            to="/"
+            target="_blank"
+            className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#4A6090] hover:text-[#1E3FA8] transition-colors shrink-0 ml-4"
+          >
+            View Site ↗
+          </Link>
         </header>
 
-        {/* Content Area */}
-        <main className="flex-1 overflow-y-auto p-8 relative z-0">
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#E8E2D0]">
           <Outlet />
         </main>
       </div>

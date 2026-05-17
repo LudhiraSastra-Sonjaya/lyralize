@@ -7,74 +7,94 @@ const MerchPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Reveal animation
-    gsap.fromTo('.page-title', { opacity: 0, y: 50, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out' });
-
-    // Fetch Merch from Laravel API
+    window.scrollTo(0, 0);
+    gsap.fromTo('.page-title', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' });
     const fetchMerch = async () => {
       try {
-        const response = await api.get('/merch');
-        if (response.data && response.data.length > 0) {
-          setMerchItems(response.data);
-        } else {
-          setMerchItems([]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch merch", error);
+        const res = await api.get('/merch');
+        setMerchItems(res.data || []);
+      } catch (e) {
+        console.error('Failed to fetch merch', e);
         setMerchItems([]);
       } finally {
         setLoading(false);
       }
     };
-
     fetchMerch();
   }, []);
 
   return (
-    <div className="min-h-screen pt-32 pb-24 px-6 md:px-12 bg-[#050508] relative">
-      <h1 className="page-title text-6xl md:text-8xl font-distorted text-transparent bg-clip-text bg-gradient-to-r from-[#8B5CF6] to-white opacity-80 mb-16 text-center uppercase">
-        MERCH
-      </h1>
+    <div className="min-h-screen bg-[#F0EBE0] pt-40 md:pt-48 pb-24 overflow-x-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 md:px-16">
 
-      {loading ? (
-        <div className="text-center text-[#8B5CF6] animate-pulse font-display">Loading Noise...</div>
-      ) : merchItems.length === 0 ? (
-        <div className="text-center text-gray-500 font-sans tracking-widest uppercase">No merchandise available at the moment.</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
-          {merchItems.map((item) => (
-            <div key={item.id} className="group flex flex-col gap-4">
-              <div className="relative aspect-[3/4] overflow-hidden bg-black border border-white/10">
-                {item.image ? (
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 blur-[2px] group-hover:blur-0"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-white/5 text-gray-500 font-display">NO IMAGE</div>
-                )}
-                <div className="absolute inset-0 bg-[#8B5CF6]/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-display font-bold text-xl uppercase tracking-widest">{item.name}</h3>
-                  <p className="text-gray-400 font-sans tracking-widest text-sm mt-1">IDR {item.price}</p>
-                </div>
-                {item.in_stock ? (
-                  <button className="border border-[#8B5CF6] text-[#8B5CF6] px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#8B5CF6] hover:text-white transition-all">
-                    Purchase
-                  </button>
-                ) : (
-                  <span className="border border-red-500/50 text-red-500/50 px-4 py-2 text-xs uppercase tracking-widest">
-                    Sold Out
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+        <div className="flex items-center gap-4 mb-10 page-title overflow-hidden">
+          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#1E3FA8] shrink-0">// 05</span>
+          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#4A6090] shrink-0">General Store</span>
+          <div className="flex-1 h-px bg-[#C8C0A8]" />
         </div>
-      )}
+
+        <div className="flex flex-col gap-6 mb-16">
+          <h1 className="page-title cs-hero text-[#0C1B4D] leading-[0.9]">Merch.</h1>
+          <p className="page-title max-w-md font-mono text-sm md:text-base text-[#4A6090] leading-relaxed">
+            Tees, tapes, and artifacts from the void. Printed slow,
+            packed by hand, shipped with static.
+          </p>
+        </div>
+
+        {loading ? (
+          <div className="text-center text-[#1E3FA8] font-mono text-sm animate-pulse tracking-widest uppercase py-24">
+            Loading storefront...
+          </div>
+        ) : merchItems.length === 0 ? (
+          <div className="text-center text-[#4A6090] font-mono tracking-widest uppercase py-24 text-sm">
+            No merchandise available at the moment.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+            {merchItems.map((item, i) => (
+              <div key={item.id} className="group flex flex-col gap-4">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[#E2DBC8] border border-[#C8C0A8]">
+                  {item.image ? (
+                    <img src={item.image} alt={item.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      style={{ filter: 'grayscale(0.2) brightness(0.9) contrast(1.05)' }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[#4A6090] font-mono tracking-widest text-xs">
+                      NO IMAGE
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-[#1E3FA8]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-multiply" />
+                  <div className="absolute top-3 left-3 blue-pill">// {String(i + 1).padStart(2, '0')}</div>
+                  {!item.in_stock && (
+                    <div className="absolute top-4 right-[-34px] rotate-45 bg-[#0C1B4D]/10 text-[#0C1B4D]/50 border border-[#0C1B4D]/15 px-10 py-1 font-mono text-[10px] tracking-[0.25em] uppercase">
+                      Sold Out
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    <h3 className="font-mono text-base text-[#0C1B4D] leading-tight">{item.name}</h3>
+                    <p className="font-mono text-sm text-[#4A6090] mt-2">
+                      IDR {Number(item.price).toLocaleString('id-ID')}
+                    </p>
+                  </div>
+                  {item.in_stock ? (
+                    <button className="shrink-0 border border-[#1E3FA8] text-[#1E3FA8] px-5 py-2.5 font-mono text-[10px] tracking-[0.25em] uppercase hover:bg-[#1E3FA8] hover:text-[#F0EBE0] transition-colors rounded-full cursor-pointer">
+                      Buy
+                    </button>
+                  ) : (
+                    <span className="shrink-0 border border-[#C8C0A8] text-[#4A6090] px-5 py-2.5 font-mono text-[10px] tracking-[0.25em] uppercase rounded-full">
+                      —
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

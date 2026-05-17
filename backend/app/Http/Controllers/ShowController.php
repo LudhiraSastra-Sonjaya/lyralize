@@ -9,7 +9,7 @@ class ShowController extends Controller
 {
     public function index()
     {
-        return response()->json(Show::orderBy('date', 'asc')->get());
+        return response()->json(Show::orderBy('show_date', 'asc')->get());
     }
 
     public function store(Request $request)

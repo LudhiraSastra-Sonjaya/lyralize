@@ -8,78 +8,76 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Releases', href: '/releases' },
-    { name: 'Shows', href: '/shows' },
-    { name: 'Gallery', href: '/gallery' },
-    { name: 'Merch', href: '/merch' },
+    { name: 'Home',     href: '/',         num: '01' },
+    { name: 'Releases', href: '/releases', num: '02' },
+    { name: 'Shows',    href: '/shows',    num: '03' },
+    { name: 'Gallery',  href: '/gallery',  num: '04' },
+    { name: 'Merch',    href: '/merch',    num: '05' },
   ];
 
   return (
     <>
-      <nav
-        className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
-          scrolled ? 'bg-[#050508]/80 backdrop-blur-lg py-4 border-b border-white/5' : 'bg-transparent py-6'
-        }`}
-      >
-        <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrolled ? 'bg-[#F0EBE0]/95 backdrop-blur-xl py-4 border-b border-[#C8C0A8]' : 'bg-transparent py-6'
+      }`}>
+        <div className="max-w-[1400px] mx-auto px-8 md:px-16 flex justify-between items-center">
           {/* Logo */}
-          <Link
-            to="/"
-            className="text-2xl font-display font-bold tracking-tighter uppercase z-50 text-[#8B5CF6] mix-blend-screen"
-          >
-            LANTERNE
+          <Link to="/" className="z-50 flex items-center gap-3">
+            <span className="cs-sm text-[#0C1B4D] leading-none">Lyralize</span>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex gap-8 items-center">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.href}
-                className={`text-sm uppercase tracking-widest transition-colors duration-300 relative group overflow-hidden ${location.pathname === link.href ? 'text-[#8B5CF6]' : 'text-gray-400 hover:text-white'}`}
-              >
-                {link.name}
-                <span className={`absolute bottom-0 left-0 w-full h-[1px] bg-[#8B5CF6] transform ${location.pathname === link.href ? 'translate-x-0' : '-translate-x-[101%] group-hover:translate-x-0'} transition-transform duration-300 ease-out`} />
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const active = location.pathname === link.href;
+              return (
+                <Link key={link.name} to={link.href}
+                  className={`flex items-center gap-1.5 font-mono text-[11px] tracking-[0.25em] uppercase transition-colors duration-300 ${
+                    active ? 'text-[#1E3FA8]' : 'text-[#4A6090] hover:text-[#0C1B4D]'
+                  }`}
+                >
+                  <span className="link-underline">{link.name}</span>
+                </Link>
+              );
+            })}
+
+            {/* CTA */}
+            <Link to="/#contact"
+              className="ml-4 inline-flex items-center gap-2 bg-[#1E3FA8] text-[#F0EBE0] px-6 py-2.5 font-mono text-[10px] tracking-[0.25em] uppercase hover:bg-[#2A52C9] transition-colors rounded-full"
+            >
+              Connect With Us
+            </Link>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className="md:hidden z-50 text-white"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+          <button className="md:hidden z-50 text-[#0C1B4D]" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`fixed inset-0 bg-[#0F0F1A] z-40 flex flex-col justify-center items-center transition-transform duration-700 ease-in-out ${
-          isOpen ? 'translate-y-0' : '-translate-y-full'
-        }`}
-      >
+      {/* Mobile Menu */}
+      <div className={`fixed inset-0 bg-[#F0EBE0] z-40 flex flex-col justify-center items-center transition-transform duration-700 ease-in-out ${
+        isOpen ? 'translate-y-0' : '-translate-y-full'
+      }`}>
         <div className="flex flex-col gap-8 text-center">
           {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              onClick={() => setIsOpen(false)}
-              className="text-4xl font-display font-bold uppercase tracking-wider text-gray-300 hover:text-[#8B5CF6] transition-colors duration-300 blur-[0.5px] hover:blur-0"
-            >
-              {link.name}
+            <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)}
+              className="flex items-center justify-center gap-4 text-[#0C1B4D] hover:text-[#1E3FA8] transition-colors duration-300">
+              <span className="font-mono text-sm text-[#1E3FA8]/60">// {link.num}</span>
+              <span className="cs-md leading-none">{link.name}</span>
             </Link>
           ))}
+          <Link to="/#contact" onClick={() => setIsOpen(false)}
+            className="mt-4 inline-flex items-center justify-center gap-2 bg-[#1E3FA8] text-[#F0EBE0] px-8 py-4 font-mono text-[11px] tracking-[0.3em] uppercase hover:bg-[#2A52C9] transition-colors rounded-full mx-auto"
+          >
+            Connect With Us
+          </Link>
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Trash2, Mail, Check, X } from 'lucide-react';
+import { Trash2, Mail } from 'lucide-react';
 import api from '../../services/api';
 
 const AdminMessages = () => {
@@ -8,129 +8,89 @@ const AdminMessages = () => {
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   const fetchMessages = async () => {
-    try {
-      const response = await api.get('/messages');
-      setMessages(response.data);
-    } catch (error) {
-      console.error('Failed to fetch messages', error);
-    } finally {
-      setLoading(false);
-    }
+    try { const r = await api.get('/messages'); setMessages(r.data); }
+    catch(e){console.error(e);} finally{setLoading(false);}
   };
-
-  useEffect(() => {
-    fetchMessages();
-  }, []);
+  useEffect(() => { fetchMessages(); }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this message?')) {
+    if(window.confirm('Delete this message?')){
       try {
         await api.delete(`/messages/${id}`);
-        if (selectedMessage && selectedMessage.id === id) {
-          setSelectedMessage(null);
-        }
+        if (selectedMessage?.id === id) setSelectedMessage(null);
         fetchMessages();
-      } catch (error) {
-        console.error('Failed to delete message', error);
-      }
+      } catch(e){console.error(e);}
     }
   };
 
-  const markAsRead = async (message) => {
-    if (!message.is_read) {
-      try {
-        await api.put(`/messages/${message.id}`, { is_read: true });
-        fetchMessages();
-      } catch (error) {
-        console.error('Failed to mark message as read', error);
-      }
+  const markAsRead = async (msg) => {
+    if (!msg.is_read) {
+      try { await api.put(`/messages/${msg.id}`, { is_read: true }); fetchMessages(); }
+      catch(e){console.error(e);}
     }
   };
 
-  const handleSelectMessage = (message) => {
-    setSelectedMessage(message);
-    markAsRead(message);
-  };
+  const handleSelect = (msg) => { setSelectedMessage(msg); markAsRead(msg); };
 
-  if (loading) return <div className="text-gray-400">Loading...</div>;
+  if (loading) return <div className="font-mono text-sm text-[#4A6090] animate-pulse">Loading messages...</div>;
 
   return (
     <div className="space-y-6 h-full flex flex-col">
       <div className="flex justify-between items-center shrink-0">
-        <h1 className="text-2xl font-display font-bold text-white">Messages</h1>
+        <h1 className="text-2xl font-mono font-bold text-[#0C1B4D]">Messages</h1>
       </div>
 
-      <div className="flex-1 bg-[#0F0F1A] border border-white/5 rounded-xl overflow-hidden flex min-h-[500px]">
-        {/* Messages List */}
-        <div className="w-1/3 border-r border-white/5 flex flex-col overflow-hidden">
-          <div className="p-4 border-b border-white/5 bg-white/5">
-            <h2 className="font-medium text-white flex items-center gap-2">
-              <Mail size={18} /> Inbox ({messages.filter(m => !m.is_read).length} unread)
+      <div className="flex-1 bg-[#F0EBE0] border border-[#C8C0A8] rounded-xl overflow-hidden flex flex-col md:flex-row min-h-[400px]">
+        {/* Inbox list */}
+        <div className="w-full md:w-1/3 border-b md:border-b-0 md:border-r border-[#C8C0A8] flex flex-col overflow-hidden max-h-[40vh] md:max-h-none">
+          <div className="p-4 border-b border-[#C8C0A8] bg-[#C8C0A8]/20">
+            <h2 className="font-mono text-sm font-medium text-[#0C1B4D] flex items-center gap-2">
+              <Mail size={16}/> Inbox ({messages.filter(m=>!m.is_read).length} unread)
             </h2>
           </div>
-          <div className="flex-1 overflow-y-auto divide-y divide-white/5">
-            {messages.map((message) => (
-              <button
-                key={message.id}
-                onClick={() => handleSelectMessage(message)}
-                className={`w-full text-left p-4 hover:bg-white/[0.02] transition-colors ${selectedMessage?.id === message.id ? 'bg-white/[0.05]' : ''}`}
+          <div className="flex-1 overflow-y-auto divide-y divide-[#C8C0A8]">
+            {messages.map(msg => (
+              <button key={msg.id} onClick={() => handleSelect(msg)}
+                className={`w-full text-left p-4 hover:bg-[#1E3FA8]/5 transition-colors ${selectedMessage?.id===msg.id ? 'bg-[#1E3FA8]/8' : ''}`}
               >
                 <div className="flex justify-between items-start mb-1">
-                  <span className={`font-medium ${message.is_read ? 'text-gray-300' : 'text-white'}`}>
-                    {message.name}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {new Date(message.created_at).toLocaleDateString()}
-                  </span>
+                  <span className={`font-mono text-sm ${msg.is_read ? 'text-[#4A6090]' : 'text-[#0C1B4D] font-bold'}`}>{msg.name}</span>
+                  <span className="text-xs font-mono text-[#4A6090]/60">{new Date(msg.created_at).toLocaleDateString()}</span>
                 </div>
-                <div className={`text-sm mb-1 ${message.is_read ? 'text-gray-400' : 'text-gray-200 font-medium'}`}>
-                  {message.subject || 'No Subject'}
-                </div>
-                <div className="text-xs text-gray-500 truncate">
-                  {message.content}
-                </div>
+                <div className={`font-mono text-xs mb-1 ${msg.is_read ? 'text-[#4A6090]/70' : 'text-[#0C1B4D]'}`}>{msg.subject||'No Subject'}</div>
+                <div className="font-mono text-xs text-[#4A6090]/50 truncate">{msg.content}</div>
               </button>
             ))}
-            {messages.length === 0 && (
-              <div className="p-8 text-center text-gray-500 text-sm">
-                No messages found.
-              </div>
-            )}
+            {messages.length===0 && <div className="p-8 text-center text-[#4A6090]/60 font-mono text-sm">No messages yet.</div>}
           </div>
         </div>
 
-        {/* Message Content */}
-        <div className="w-2/3 flex flex-col bg-[#050508]/50">
+        {/* Message content */}
+        <div className="w-full md:w-2/3 flex flex-col bg-[#F0EBE0]">
           {selectedMessage ? (
             <>
-              <div className="p-6 border-b border-white/5 flex justify-between items-start shrink-0">
+              <div className="p-6 border-b border-[#C8C0A8] flex justify-between items-start shrink-0">
                 <div>
-                  <h2 className="text-xl font-bold text-white mb-2">{selectedMessage.subject || 'No Subject'}</h2>
-                  <div className="text-sm text-gray-400">
-                    From: <span className="text-white">{selectedMessage.name}</span> &lt;{selectedMessage.email}&gt;
+                  <h2 className="text-lg font-mono font-bold text-[#0C1B4D] mb-1">{selectedMessage.subject||'No Subject'}</h2>
+                  <div className="text-sm font-mono text-[#4A6090]">
+                    From: <span className="text-[#0C1B4D]">{selectedMessage.name}</span> &lt;{selectedMessage.email}&gt;
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs font-mono text-[#4A6090]/60 mt-1">
                     Received: {new Date(selectedMessage.created_at).toLocaleString()}
                   </div>
                 </div>
-                <button
-                  onClick={() => handleDelete(selectedMessage.id)}
-                  className="text-red-400 hover:bg-red-400/10 p-2 rounded transition-colors"
-                  title="Delete message"
-                >
-                  <Trash2 size={20} />
+                <button onClick={() => handleDelete(selectedMessage.id)} className="text-red-400 hover:text-red-600 p-2 transition-colors" title="Delete">
+                  <Trash2 size={20}/>
                 </button>
               </div>
               <div className="p-6 overflow-y-auto flex-1">
-                <div className="prose prose-invert max-w-none text-gray-300 whitespace-pre-wrap font-sans">
-                  {selectedMessage.content}
-                </div>
+                <p className="font-mono text-sm text-[#0C1B4D] whitespace-pre-wrap leading-relaxed">{selectedMessage.content}</p>
               </div>
             </>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-gray-500">
-              <Mail size={48} className="mb-4 opacity-50" />
-              <p>Select a message to read</p>
+            <div className="flex-1 flex flex-col items-center justify-center text-[#4A6090]/40">
+              <Mail size={48} className="mb-4 opacity-50"/>
+              <p className="font-mono text-sm">Select a message to read</p>
             </div>
           )}
         </div>
@@ -138,5 +98,4 @@ const AdminMessages = () => {
     </div>
   );
 };
-
 export default AdminMessages;
