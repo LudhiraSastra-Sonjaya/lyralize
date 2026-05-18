@@ -1,28 +1,28 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
 import api from '../../services/api';
 
 const S = {
-  h1:'text-2xl font-mono font-bold text-[#0C1B4D]',
-  addBtn:'bg-[#1E3FA8] hover:bg-[#2A52C9] text-[#F0EBE0] px-4 py-2 rounded-lg flex items-center gap-2 transition-colors font-mono text-sm',
-  table:'bg-[#F0EBE0] border border-[#C8C0A8] rounded-xl overflow-hidden',
-  thead:'bg-[#C8C0A8]/30 text-[#0C1B4D]',th:'px-6 py-4 font-mono text-xs tracking-widest uppercase',
-  tbody:'divide-y divide-[#C8C0A8]',tr:'hover:bg-[#1E3FA8]/5 transition-colors',
-  td:'px-6 py-4 font-mono text-sm text-[#4A6090]',tdPrimary:'px-6 py-4 font-mono text-sm font-medium text-[#0C1B4D]',
-  tdRight:'px-6 py-4 text-right',empty:'px-6 py-8 text-center text-[#4A6090]/60 font-mono text-sm',
-  overlay:'fixed inset-0 bg-[#0C1B4D]/40 backdrop-blur-sm z-50 flex items-center justify-center p-4',
-  modal:'bg-[#F0EBE0] border border-[#C8C0A8] rounded-xl w-full max-w-md shadow-2xl max-h-[90vh] flex flex-col',
-  modalHead:'flex justify-between items-center p-6 border-b border-[#C8C0A8]',
-  modalH2:'text-xl font-mono font-bold text-[#0C1B4D]',
-  label:'block font-mono text-xs tracking-[0.2em] uppercase text-[#4A6090] mb-1',
-  input:'w-full bg-[#E8E2D0] border border-[#C8C0A8] focus:border-[#1E3FA8] rounded-lg px-4 py-2.5 text-[#0C1B4D] font-mono text-sm outline-none transition-colors',
-  fileInput:'w-full bg-[#E8E2D0] border border-[#C8C0A8] rounded-lg px-4 py-2.5 text-[#0C1B4D] font-mono text-sm file:mr-4 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-mono file:bg-[#1E3FA8]/10 file:text-[#1E3FA8] hover:file:bg-[#1E3FA8]/20',
-  hint:'text-xs font-mono text-[#4A6090]/60 mt-1',
-  cancelBtn:'flex-1 px-4 py-2 rounded-lg border border-[#C8C0A8] text-[#4A6090] hover:bg-[#C8C0A8]/20 font-mono text-sm transition-colors',
-  saveBtn:'flex-1 px-4 py-2 rounded-lg bg-[#1E3FA8] hover:bg-[#2A52C9] text-[#F0EBE0] font-mono text-sm transition-colors',
-  editBtn:'text-[#1E3FA8] hover:text-[#0C1B4D] p-2 transition-colors',
+  h1:'text-2xl font-mono font-bold text-[#F0EBE0]',
+  addBtn:'bg-[#8FA9C4] hover:bg-[#A0C4E2] text-[#04060A] px-4 py-2 rounded-lg flex items-center gap-2 transition-colors font-mono text-sm',
+  table:'bg-[#04060A] border border-[#3A609E] rounded-xl overflow-hidden',
+  thead:'bg-[#3A609E]/30 text-[#F0EBE0]',th:'px-6 py-4 font-mono text-xs tracking-widest uppercase',
+  tbody:'divide-y divide-[#3A609E]',tr:'hover:bg-[#8FA9C4]/5 transition-colors',
+  td:'px-6 py-4 font-mono text-sm text-[#8FA9C4]',tdPrimary:'px-6 py-4 font-mono text-sm font-medium text-[#F0EBE0]',
+  tdRight:'px-6 py-4 text-right',empty:'px-6 py-8 text-center text-[#8FA9C4]/60 font-mono text-sm',
+  overlay:'fixed inset-0 bg-[#F0EBE0]/40 backdrop-blur-sm z-50 flex items-center justify-center p-4',
+  modal:'bg-[#04060A] border border-[#3A609E] rounded-xl w-full max-w-md shadow-2xl max-h-[90vh] flex flex-col',
+  modalHead:'flex justify-between items-center p-6 border-b border-[#3A609E]',
+  modalH2:'text-xl font-mono font-bold text-[#F0EBE0]',
+  label:'block font-mono text-xs tracking-[0.2em] uppercase text-[#8FA9C4] mb-1',
+  input:'w-full bg-[#0E1A2F] border border-[#3A609E] focus:border-[#8FA9C4] rounded-lg px-4 py-2.5 text-[#F0EBE0] font-mono text-sm outline-none transition-colors',
+  fileInput:'w-full bg-[#0E1A2F] border border-[#3A609E] rounded-lg px-4 py-2.5 text-[#F0EBE0] font-mono text-sm file:mr-4 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-mono file:bg-[#8FA9C4]/10 file:text-[#8FA9C4] hover:file:bg-[#8FA9C4]/20',
+  hint:'text-xs font-mono text-[#8FA9C4]/60 mt-1',
+  cancelBtn:'flex-1 px-4 py-2 rounded-lg border border-[#3A609E] text-[#8FA9C4] hover:bg-[#3A609E]/20 font-mono text-sm transition-colors',
+  saveBtn:'flex-1 px-4 py-2 rounded-lg bg-[#8FA9C4] hover:bg-[#A0C4E2] text-[#04060A] font-mono text-sm transition-colors',
+  editBtn:'text-[#8FA9C4] hover:text-[#F0EBE0] p-2 transition-colors',
   delBtn:'text-red-400 hover:text-red-600 p-2 transition-colors',
-  loading:'font-mono text-sm text-[#4A6090] animate-pulse',
+  loading:'font-mono text-sm text-[#8FA9C4] animate-pulse',
 };
 
 const AdminMerch = () => {
@@ -64,8 +64,8 @@ const AdminMerch = () => {
   const openModal = (item = null) => {
     setEditingId(item?.id||null);
     setFormData(item
-      ? {name:item.name,description:item.description||'',price:item.price,image:null,category:item.category||'clothing',in_stock:item.in_stock!==false,ecommerce_link:item.ecommerce_link||''}
-      : {name:'',description:'',price:'',image:null,category:'clothing',in_stock:true,ecommerce_link:''});
+      ? {name:item.name,description:item.description||'',price:item.price,image:null,image_url:item.image_url||'',category:item.category||'clothing',in_stock:item.in_stock!==false,ecommerce_link:item.ecommerce_link||''}
+      : {name:'',description:'',price:'',image:null,image_url:'',category:'clothing',in_stock:true,ecommerce_link:''});
     setIsModalOpen(true);
   };
 
@@ -88,7 +88,7 @@ const AdminMerch = () => {
               <tr key={item.id} className={S.tr}>
                 <td className={S.tdPrimary}>
                   <div>{item.name}</div>
-                  <div className="text-xs text-[#4A6090] capitalize mt-0.5">{item.category}</div>
+                  <div className="text-xs text-[#8FA9C4] capitalize mt-0.5">{item.category}</div>
                 </td>
                 <td className={S.td}>IDR {Number(item.price).toLocaleString('id-ID')}</td>
                 <td className={S.td}>
@@ -111,16 +111,25 @@ const AdminMerch = () => {
           <div className="admin-modal">
             <div className={S.modalHead}>
               <h2 className={S.modalH2}>{editingId?'Edit Merch':'Add Merch'}</h2>
-              <button onClick={()=>setIsModalOpen(false)} className="text-[#4A6090] hover:text-[#0C1B4D]"><X size={24}/></button>
+              <button onClick={()=>setIsModalOpen(false)} className="text-[#8FA9C4] hover:text-[#F0EBE0]"><X size={24}/></button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div><label className={S.label}>Name</label><input type="text" required value={formData.name} onChange={e=>setFormData({...formData,name:e.target.value})} className={S.input}/></div>
               <div><label className={S.label}>Price (IDR)</label><input type="number" required value={formData.price} onChange={e=>setFormData({...formData,price:e.target.value})} className={S.input}/></div>
-              <div><label className={S.label}>Image</label><input type="file" accept="image/*" onChange={e=>setFormData({...formData,image:e.target.files[0]})} className={S.fileInput}/>{editingId&&!formData.image&&<p className={S.hint}>Leave empty to keep existing.</p>}</div>
+              <div>
+                <label className={S.label}>Image</label>
+                {formData.image_url && !formData.image && (
+                  <div className="mb-4">
+                    <img src={formData.image_url} alt="Merch Preview" className="w-32 h-32 object-cover rounded border border-[#3A609E]" />
+                  </div>
+                )}
+                <input type="file" accept="image/*" onChange={e=>setFormData({...formData,image:e.target.files[0]})} className={S.fileInput}/>
+                {editingId&&!formData.image&&<p className={S.hint}>Leave empty to keep existing.</p>}
+              </div>
               <div><label className={S.label}>E-commerce Link</label><input type="url" value={formData.ecommerce_link} onChange={e=>setFormData({...formData,ecommerce_link:e.target.value})} className={S.input}/></div>
               <div className="flex items-center gap-2">
-                <input type="checkbox" id="in_stock" checked={formData.in_stock} onChange={e=>setFormData({...formData,in_stock:e.target.checked})} className="rounded border-[#C8C0A8] text-[#1E3FA8]"/>
-                <label htmlFor="in_stock" className="font-mono text-sm text-[#0C1B4D]">In Stock</label>
+                <input type="checkbox" id="in_stock" checked={formData.in_stock} onChange={e=>setFormData({...formData,in_stock:e.target.checked})} className="rounded border-[#3A609E] text-[#8FA9C4]"/>
+                <label htmlFor="in_stock" className="font-mono text-sm text-[#F0EBE0]">In Stock</label>
               </div>
               <div className="pt-2 flex gap-3">
                 <button type="button" onClick={()=>setIsModalOpen(false)} className={S.cancelBtn}>Cancel</button>

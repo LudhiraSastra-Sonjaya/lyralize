@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import api from '../../services/api';
 
 const S = {
-  label:'block font-mono text-xs tracking-[0.2em] uppercase text-[#4A6090] mb-1',
-  input:'w-full bg-[#E8E2D0] border border-[#C8C0A8] focus:border-[#1E3FA8] rounded-lg px-4 py-2.5 text-[#0C1B4D] font-mono text-sm outline-none transition-colors',
-  textarea:'w-full bg-[#E8E2D0] border border-[#C8C0A8] focus:border-[#1E3FA8] rounded-lg px-4 py-2.5 text-[#0C1B4D] font-mono text-sm outline-none transition-colors',
-  fileInput:'w-full bg-[#E8E2D0] border border-[#C8C0A8] rounded-lg px-4 py-2.5 text-[#0C1B4D] font-mono text-sm file:mr-4 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-mono file:bg-[#1E3FA8]/10 file:text-[#1E3FA8] hover:file:bg-[#1E3FA8]/20',
-  hint:'text-xs font-mono text-[#4A6090]/60 mt-1',
-  section:'bg-[#F0EBE0] border border-[#C8C0A8] rounded-xl p-8 space-y-4',
-  sectionH2:'font-mono text-sm font-bold tracking-widest uppercase text-[#1E3FA8] border-b border-[#C8C0A8] pb-3 mb-4',
-  saveBtn:'px-6 py-2.5 rounded-lg bg-[#1E3FA8] hover:bg-[#2A52C9] text-[#F0EBE0] font-mono text-sm transition-colors disabled:opacity-50',
+  label:'block font-mono text-xs tracking-[0.2em] uppercase text-[#8FA9C4] mb-1',
+  input:'w-full bg-[#0E1A2F] border border-[#3A609E] focus:border-[#8FA9C4] rounded-lg px-4 py-2.5 text-[#F0EBE0] font-mono text-sm outline-none transition-colors',
+  textarea:'w-full bg-[#0E1A2F] border border-[#3A609E] focus:border-[#8FA9C4] rounded-lg px-4 py-2.5 text-[#F0EBE0] font-mono text-sm outline-none transition-colors',
+  fileInput:'w-full bg-[#0E1A2F] border border-[#3A609E] rounded-lg px-4 py-2.5 text-[#F0EBE0] font-mono text-sm file:mr-4 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-mono file:bg-[#8FA9C4]/10 file:text-[#8FA9C4] hover:file:bg-[#8FA9C4]/20',
+  hint:'text-xs font-mono text-[#8FA9C4]/60 mt-1',
+  section:'bg-[#04060A] border border-[#3A609E] rounded-xl p-8 space-y-4',
+  sectionH2:'font-mono text-sm font-bold tracking-widest uppercase text-[#8FA9C4] border-b border-[#3A609E] pb-3 mb-4',
+  saveBtn:'px-6 py-2.5 rounded-lg bg-[#8FA9C4] hover:bg-[#A0C4E2] text-[#04060A] font-mono text-sm transition-colors disabled:opacity-50',
 };
 
 const AdminBandProfile = () => {
@@ -19,17 +19,17 @@ const AdminBandProfile = () => {
   const [formData, setFormData] = useState({
     name:'', bio:'', hero_video_file:null,
     contact_email:'', phone:'', location:'',
-    instagram_url:'', twitter_url:'', youtube_url:'', spotify_url:''
+    instagram_url:'', apple_music_url:'', tiktok_url:'', youtube_url:'', spotify_url:''
   });
 
   const fetchProfile = async () => {
     try {
       const r = await api.get('/band-profile');
       if (r.data) setFormData({
-        name:r.data.name||'', bio:r.data.bio||'', hero_video_file:null,
+        name:r.data.name||'', bio:r.data.bio||'', hero_video_file:null, hero_video_url:r.data.hero_video_url||'',
         contact_email:r.data.contact_email||'', phone:r.data.phone||'', location:r.data.location||'',
-        instagram_url:r.data.instagram_url||'', twitter_url:r.data.twitter_url||'',
-        youtube_url:r.data.youtube_url||'', spotify_url:r.data.spotify_url||''
+        instagram_url:r.data.instagram_url||'', apple_music_url:r.data.apple_music_url||'',
+        tiktok_url:r.data.tiktok_url||'', youtube_url:r.data.youtube_url||'', spotify_url:r.data.spotify_url||''
       });
     } catch(e){console.error(e);} finally{setLoading(false);}
   };
@@ -39,7 +39,7 @@ const AdminBandProfile = () => {
     e.preventDefault();
     setSaving(true); setSuccessMsg('');
     const data = new FormData();
-    ['name','bio','contact_email','phone','location','instagram_url','twitter_url','youtube_url','spotify_url'].forEach(k => data.append(k, formData[k]||''));
+    ['name','bio','contact_email','phone','location','instagram_url','apple_music_url','tiktok_url','youtube_url','spotify_url'].forEach(k => data.append(k, formData[k]||''));
     if (formData.hero_video_file instanceof File) data.append('hero_video_file', formData.hero_video_file);
     try {
       await api.post('/band-profile', data, {headers:{'Content-Type':'multipart/form-data'}});
@@ -50,12 +50,12 @@ const AdminBandProfile = () => {
 
   const F = (k) => (e) => setFormData({...formData, [k]: e.target.value});
 
-  if (loading) return <div className="font-mono text-sm text-[#4A6090] animate-pulse">Loading profile...</div>;
+  if (loading) return <div className="font-mono text-sm text-[#8FA9C4] animate-pulse">Loading profile...</div>;
 
   return (
     <div className="space-y-6 max-w-4xl">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-mono font-bold text-[#0C1B4D]">Band Profile</h1>
+        <h1 className="text-2xl font-mono font-bold text-[#F0EBE0]">Band Profile</h1>
       </div>
 
       {successMsg && (
@@ -78,6 +78,15 @@ const AdminBandProfile = () => {
           </div>
           <div>
             <label className={S.label}>Hero Image / Video (Background for Home)</label>
+            {formData.hero_video_url && (
+              <div className="mb-4">
+                {formData.hero_video_url.match(/\.(mp4|webm|ogg)$/i) ? (
+                  <video src={formData.hero_video_url} className="w-full max-w-sm rounded border border-[#3A609E]" autoPlay loop muted />
+                ) : (
+                  <img src={formData.hero_video_url} alt="Hero Media" className="w-full max-w-sm rounded border border-[#3A609E]" />
+                )}
+              </div>
+            )}
             <input type="file" accept="image/*,video/*" onChange={e=>setFormData({...formData,hero_video_file:e.target.files[0]})} className={S.fileInput}/>
             {!formData.hero_video_file && <p className={S.hint}>Leave empty to keep existing media.</p>}
           </div>
@@ -98,7 +107,13 @@ const AdminBandProfile = () => {
         <div className={S.section}>
           <h2 className={S.sectionH2}>// Social Links</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[['Instagram URL','instagram_url'],['Twitter URL','twitter_url'],['YouTube URL','youtube_url'],['Spotify URL','spotify_url']].map(([lbl,key]) => (
+            {[
+              ['Instagram URL', 'instagram_url'],
+              ['Apple Music URL', 'apple_music_url'],
+              ['TikTok URL', 'tiktok_url'],
+              ['YouTube URL', 'youtube_url'],
+              ['Spotify URL', 'spotify_url']
+            ].map(([lbl,key]) => (
               <div key={key}><label className={S.label}>{lbl}</label><input type="url" value={formData[key]} onChange={F(key)} className={S.input}/></div>
             ))}
           </div>

@@ -38,12 +38,12 @@ const AdminDashboard = () => {
     <div className="space-y-8">
       <div>
         <h2
-          className="text-[#0C1B4D] leading-none"
+          className="text-[#F0EBE0] leading-none"
           style={{ fontFamily: '"Drowner Free", serif', fontSize: '3.5rem' }}
         >
           Good day.
         </h2>
-        <p className="font-mono text-sm text-[#4A6090] mt-2">
+        <p className="font-mono text-sm text-[#8FA9C4] mt-2">
           Here's what's on the desk today.
         </p>
       </div>
@@ -52,34 +52,34 @@ const AdminDashboard = () => {
         {statCards.map((stat) => (
           <div
             key={stat.name}
-            className="bg-[#F0EBE0] border border-[#C8C0A8] p-6 hover:border-[#1E3FA8] transition-colors"
+            className="bg-[#04060A] border border-[#3A609E] p-6 hover:border-[#8FA9C4] transition-colors"
           >
             <div className="flex justify-between items-start mb-6">
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#1E3FA8]">
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#8FA9C4]">
                 // {stat.num}
               </span>
-              <div className="text-[#C8C0A8]">{stat.icon}</div>
+              <div className="text-[#3A609E]">{stat.icon}</div>
             </div>
             <h3
-              className="text-[#0C1B4D] leading-none"
+              className="text-[#F0EBE0] leading-none"
               style={{ fontFamily: '"Drowner Free", serif', fontSize: '3.5rem' }}
             >
               {stat.value}
             </h3>
-            <p className="font-mono text-sm text-[#4A6090] mt-3">{stat.name}</p>
+            <p className="font-mono text-sm text-[#8FA9C4] mt-3">{stat.name}</p>
           </div>
         ))}
       </div>
 
-      <div className="bg-[#F0EBE0] border border-[#C8C0A8] p-8">
+      <div className="bg-[#04060A] border border-[#3A609E] p-8">
         <span className="section-label">// Quick note</span>
         <h3
-          className="text-[#0C1B4D] mt-3 mb-2"
+          className="text-[#F0EBE0] mt-3 mb-2"
           style={{ fontFamily: '"Drowner Free", serif', fontSize: '2rem' }}
         >
           Pick a section from the sidebar to start editing.
         </h3>
-        <p className="font-mono text-sm text-[#4A6090]">
+        <p className="font-mono text-sm text-[#8FA9C4]">
           Everything you publish here shows up on the public site right away.
         </p>
       </div>

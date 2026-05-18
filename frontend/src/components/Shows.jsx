@@ -40,35 +40,35 @@ const Shows = () => {
   }, [loading, showsList]);
 
   return (
-    <section id="shows" ref={sectionRef} className="w-full bg-[#F0EBE0] py-20 md:py-48 overflow-hidden">
+    <section id="shows" ref={sectionRef} className="w-full bg-[#04060A] py-20 md:py-48 overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 md:px-16">
 
         {/* Section header */}
         <div className="flex items-center gap-6 mb-6">
-          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#1E3FA8]">// 04</span>
-          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#4A6090]">Tour Diary</span>
-          <div className="flex-1 h-px bg-[#C8C0A8]" />
-          <span className="hidden md:block font-mono text-sm text-[#C8C0A8] select-none">ツアー</span>
+          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">// 04</span>
+          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">Tour Diary</span>
+          <div className="flex-1 h-px bg-[#3A609E]" />
+          <span className="hidden md:block font-mono text-sm text-[#3A609E] select-none">ツアー</span>
         </div>
 
         {/* Title row */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20 md:mb-28">
-          <h2 className="cs-lg text-[#0C1B4D] leading-[1]">
+          <h2 className="cs-lg text-[#F0EBE0] leading-[1]">
             Where we'll<br />
-            be <span className="text-[#1E3FA8]">playing</span>.
+            be <span className="text-[#8FA9C4]">playing</span>.
           </h2>
-          <p className="max-w-sm font-mono text-sm text-[#4A6090] leading-relaxed">
+          <p className="max-w-sm font-mono text-sm text-[#8FA9C4] leading-relaxed">
             Every city on this list is a small reason to
             drive too far and sleep too little.
           </p>
         </div>
 
         {loading ? (
-          <div className="text-[#1E3FA8] font-mono text-sm animate-pulse tracking-widest uppercase">Loading dates...</div>
+          <div className="text-[#8FA9C4] font-mono text-sm animate-pulse tracking-widest uppercase">Loading dates...</div>
         ) : showsList.length === 0 ? (
-          <div className="text-[#4A6090] font-mono tracking-widest text-sm uppercase">No upcoming shows at the moment.</div>
+          <div className="text-[#8FA9C4] font-mono tracking-widest text-sm uppercase">No upcoming shows at the moment.</div>
         ) : (
-          <div className="border-t border-[#C8C0A8]">
+          <div className="border-t border-[#3A609E]">
             {showsList.map((show, index) => {
               const dateObj = new Date(show.show_date || new Date());
               const month = dateObj.toLocaleString('en-US', { month: 'short' }).toUpperCase();
@@ -79,30 +79,30 @@ const Shows = () => {
 
               return (
                 <div key={show.id} ref={(el) => (rowsRef.current[index] = el)}
-                  className="border-b border-[#C8C0A8]"
+                  className="border-b border-[#3A609E]"
                 >
                   <div
-                    className="group grid grid-cols-12 gap-4 md:gap-8 items-center py-8 md:py-10 hover:bg-[#1E3FA8]/5 transition-colors duration-500 cursor-pointer px-2 md:px-4"
+                    className="group grid grid-cols-12 gap-4 md:gap-8 items-center py-8 md:py-10 hover:bg-[#8FA9C4]/5 transition-colors duration-500 cursor-pointer px-2 md:px-4"
                     onClick={() => setExpandedIndex(isExpanded ? -1 : index)}
                   >
                     {/* Date */}
                     <div className="col-span-3 md:col-span-2 flex flex-col">
-                      <span className="cs-md text-[#0C1B4D] leading-none">{day}</span>
-                      <span className="font-mono text-[10px] tracking-[0.25em] mt-1 text-[#4A6090]">
+                      <span className="cs-md text-[#F0EBE0] leading-none">{day}</span>
+                      <span className="font-mono text-[10px] tracking-[0.25em] mt-1 text-[#8FA9C4]">
                         {month} · {year}
                       </span>
                     </div>
 
                     {/* Location */}
                     <div className="col-span-6 md:col-span-5">
-                      <h3 className="cs-sm text-[#0C1B4D] leading-none group-hover:translate-x-3 transition-transform duration-500">
+                      <h3 className="cs-sm text-[#F0EBE0] leading-none group-hover:translate-x-3 transition-transform duration-500">
                         {show.location}
                       </h3>
                     </div>
 
                     {/* Status */}
                     <div className="hidden md:block col-span-2">
-                      <span className={`font-mono text-[10px] tracking-[0.25em] uppercase ${!show.ticket_url ? 'text-[#1E3FA8]' : 'text-[#4A6090]'}`}>
+                      <span className={`font-mono text-[10px] tracking-[0.25em] uppercase ${!show.ticket_url ? 'text-[#8FA9C4]' : 'text-[#8FA9C4]'}`}>
                         {status}
                       </span>
                     </div>
@@ -112,14 +112,14 @@ const Shows = () => {
                       {show.ticket_url && (
                         <a href={show.ticket_url} target="_blank" rel="noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="hidden md:inline-flex items-center gap-2 border border-[#1E3FA8] text-[#1E3FA8] px-4 py-2 font-mono text-[10px] tracking-[0.2em] uppercase hover:bg-[#1E3FA8] hover:text-[#F0EBE0] transition-colors rounded-full">
+                          className="hidden md:inline-flex items-center gap-2 border border-[#8FA9C4] text-[#8FA9C4] px-4 py-2 font-mono text-[10px] tracking-[0.2em] uppercase hover:bg-[#8FA9C4] hover:text-[#04060A] transition-colors rounded-full">
                           Tickets
                         </a>
                       )}
                       <ChevronDown
                         size={20}
-                        className={`text-[#4A6090] transition-transform duration-500 ${
-                          isExpanded ? 'rotate-180 text-[#1E3FA8]' : ''
+                        className={`text-[#8FA9C4] transition-transform duration-500 ${
+                          isExpanded ? 'rotate-180 text-[#8FA9C4]' : ''
                         }`}
                       />
                     </div>
@@ -129,8 +129,8 @@ const Shows = () => {
                   <div className={`accordion-content ${isExpanded ? 'open' : ''}`}>
                     <div className="px-4 pb-8 grid grid-cols-12 gap-4 md:gap-8">
                       <div className="col-span-12 md:col-start-3 md:col-span-7">
-                        <p className="font-mono text-sm text-[#4A6090] leading-relaxed mb-4">
-                          <span className="text-[#1E3FA8]">Venue:</span> {show.venue}
+                        <p className="font-mono text-sm text-[#8FA9C4] leading-relaxed mb-4">
+                          <span className="text-[#8FA9C4]">Venue:</span> {show.venue}
                         </p>
                         {show.description && (
                           <p className="font-mono text-sm text-[#5A6080] leading-relaxed">
