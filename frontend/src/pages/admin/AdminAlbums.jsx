@@ -38,7 +38,7 @@ const AdminAlbums = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({ title: '', description: '', release_date: '', cover_image: null, purchase_url: '', spotify_url: '', apple_music_url: '' });
+  const [formData, setFormData] = useState({ title: '', description: '', release_date: '', cover_image: null, purchase_url: '', spotify_url: '', apple_music_url: '', type: 'Album', youtube_url: '' });
 
   const fetchAlbums = async () => {
     try { const r = await api.get('/albums'); setAlbums(r.data); }
@@ -49,7 +49,7 @@ const AdminAlbums = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
-    ['title','description','release_date','purchase_url','spotify_url','apple_music_url'].forEach(k => data.append(k, formData[k] || ''));
+    ['title','description','release_date','purchase_url','spotify_url','apple_music_url', 'type', 'youtube_url'].forEach(k => data.append(k, formData[k] || ''));
     if (formData.cover_image instanceof File) data.append('cover_image', formData.cover_image);
     try {
       if (editingId) { data.append('_method','PUT'); await api.post(`/albums/${editingId}`, data, { headers: { 'Content-Type': 'multipart/form-data' } }); }
@@ -60,7 +60,7 @@ const AdminAlbums = () => {
   const handleDelete = async (id) => { if (window.confirm('Delete this album?')) { try { await api.delete(`/albums/${id}`); fetchAlbums(); } catch(e){console.error(e);} } };
   const openModal = (item = null) => {
     setEditingId(item?.id || null);
-    setFormData(item ? { title: item.title, description: item.description||'', release_date: item.release_date||'', cover_image: null, cover_image_url: item.cover_image_url||'', purchase_url: item.purchase_url||'', spotify_url: item.spotify_url||'', apple_music_url: item.apple_music_url||'' } : { title:'', description:'', release_date:'', cover_image:null, cover_image_url:'', purchase_url:'', spotify_url:'', apple_music_url:'' });
+    setFormData(item ? { title: item.title, description: item.description||'', release_date: item.release_date||'', cover_image: null, cover_image_url: item.cover_image_url||'', purchase_url: item.purchase_url||'', spotify_url: item.spotify_url||'', apple_music_url: item.apple_music_url||'', type: item.type||'Album', youtube_url: item.youtube_url||'' } : { title:'', description:'', release_date:'', cover_image:null, cover_image_url:'', purchase_url:'', spotify_url:'', apple_music_url:'', type:'Album', youtube_url:'' });
     setIsModalOpen(true);
   };
 
@@ -76,18 +76,19 @@ const AdminAlbums = () => {
       <div className="admin-table-wrap">
         <table className="w-full text-left">
           <thead className={C.thead}><tr>
-            <th className={C.th}>Cover</th><th className={C.th}>Title</th><th className={C.th}>Release Date</th><th className={C.th + ' text-right'}>Actions</th>
+            <th className={C.th}>Cover</th><th className={C.th}>Title</th><th className={C.th}>Type</th><th className={C.th}>Release Date</th><th className={C.th + ' text-right'}>Actions</th>
           </tr></thead>
           <tbody className={C.tbody}>
             {albums.map(item => (
               <tr key={item.id} className={C.tr}>
                 <td className={C.td}>{item.cover_image_url ? <img src={item.cover_image_url} alt={item.title} className="w-12 h-12 rounded object-cover border border-[#3A609E]" /> : <div className="w-12 h-12 bg-[#3A609E]/30 rounded flex items-center justify-center text-[#8FA9C4] text-xs">N/A</div>}</td>
                 <td className={C.tdPrimary}>{item.title}</td>
+                <td className={C.td}>{item.type || 'Album'}</td>
                 <td className={C.td}>{item.release_date || '-'}</td>
                 <td className={C.tdRight}><button onClick={() => openModal(item)} className={C.editBtn}><Edit2 size={18}/></button><button onClick={() => handleDelete(item.id)} className={C.delBtn}><Trash2 size={18}/></button></td>
               </tr>
             ))}
-            {albums.length === 0 && <tr><td colSpan="4" className={C.empty}>No albums yet. Add one!</td></tr>}
+            {albums.length === 0 && <tr><td colSpan="5" className={C.empty}>No albums yet. Add one!</td></tr>}
           </tbody>
         </table></div>
 
@@ -106,6 +107,14 @@ const AdminAlbums = () => {
                   </div>
                 ))}
                 <div>
+                  <label className={C.label}>Type</label>
+                  <select value={formData.type} onChange={e => setFormData({...formData,type:e.target.value})} className={C.input}>
+                    <option value="Album">Album</option>
+                    <option value="EP">EP</option>
+                    <option value="Single">Single</option>
+                  </select>
+                </div>
+                <div>
                   <label className={C.label}>Cover Image</label>
                   {formData.cover_image_url && !formData.cover_image && (
                     <div className="mb-4">
@@ -115,8 +124,8 @@ const AdminAlbums = () => {
                   <input type="file" accept="image/*" onChange={e => setFormData({...formData,cover_image:e.target.files[0]})} className={C.fileInput}/>
                   {editingId && !formData.cover_image && <p className={C.hint}>Leave empty to keep existing cover.</p>}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[['Spotify URL','spotify_url'],['Apple Music URL','apple_music_url']].map(([lbl,key]) => (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[['Spotify URL','spotify_url'],['Apple Music URL','apple_music_url'],['YouTube URL','youtube_url']].map(([lbl,key]) => (
                     <div key={key}><label className={C.label}>{lbl}</label><input type="url" value={formData[key]} onChange={e => setFormData({...formData,[key]:e.target.value})} className={C.input}/></div>
                   ))}
                 </div>
