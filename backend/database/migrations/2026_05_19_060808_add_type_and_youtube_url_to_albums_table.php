@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('albums', function (Blueprint $table) {
+            $table->string('type')->default('Album')->after('title');
+            $table->string('youtube_url')->nullable()->after('apple_music_url');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('albums', function (Blueprint $table) {
+            $table->dropColumn(['type', 'youtube_url']);
+        });
+    }
+};

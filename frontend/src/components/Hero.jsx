@@ -8,7 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 const Hero = () => {
   const containerRef = useRef(null);
   const headlineRef = useRef(null);
-  const subRef = useRef(null);
   const imageRef = useRef(null);
   const metaRef = useRef(null);
 
@@ -33,8 +32,7 @@ const Hero = () => {
     if (loading) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-      tl.fromTo(headlineRef.current, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, delay: 0.2 })
-        .fromTo(subRef.current?.children || [], { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, stagger: 0.12 }, '-=0.6')
+        tl.fromTo(headlineRef.current, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, delay: 0.2 })
         .fromTo(imageRef.current, { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6 }, '-=1.2')
         .fromTo(metaRef.current?.children || [], { opacity: 0 }, { opacity: 1, duration: 0.8, stagger: 0.1 }, '-=1');
 
@@ -71,31 +69,15 @@ const Hero = () => {
       {/* ── Content ── */}
       <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-8 md:px-16 flex flex-col min-h-[100svh] py-24 md:py-40">
 
-        {/* Top meta pills — like Brandin's hero info badges */}
-        <div ref={metaRef} className="flex flex-wrap gap-4 md:gap-6 mb-auto">
-          <span className="inline-flex items-center gap-2 border border-[#3A609E] text-[#8FA9C4] px-4 py-2 font-mono text-[10px] tracking-[0.25em] uppercase rounded-full">
-            Based in Bandung, Indonesia
-          </span>
-          <span className="inline-flex items-center gap-2 border border-[#3A609E] text-[#8FA9C4] px-4 py-2 font-mono text-[10px] tracking-[0.25em] uppercase rounded-full">
-            Shoegaze · Dream Pop · Noise Rock
-          </span>
-          <span className="inline-flex items-center gap-2 border border-[#3A609E] text-[#8FA9C4] px-4 py-2 font-mono text-[10px] tracking-[0.25em] uppercase rounded-full">
-            Est. 2025
-          </span>
-        </div>
-
         {/* Main headline */}
         <div className="mt-16 md:mt-24">
-          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4] mb-4">
-            Featured Work
-          </div>
 
-          <div ref={headlineRef} className="mb-4">
+          <div ref={headlineRef} className="flex items-center justify-center mb-50">
             {!loading && (
               <img
                 src="/(LOGO) LYRA (WHITE).png"
                 alt={bandName}
-                className="h-20 md:h-36 w-auto object-contain drop-shadow-2xl"
+                className="h-100px w-auto drop-shadow-2xl"
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'block';
@@ -108,34 +90,6 @@ const Hero = () => {
             </h1>
           </div>
 
-          {/* Sub info row */}
-          <div ref={subRef} className="mt-10 md:mt-14 flex flex-col md:flex-row items-start gap-8 md:gap-16">
-            <p className="max-w-lg font-mono text-sm md:text-base text-[#8FA9C4] leading-relaxed">
-              {tagline}. Walls of reverb, blurred vocals, and melodies that
-              dissolve into <span className="text-[#8FA9C4]">static</span> —
-              music for the space between waking and dreaming.
-            </p>
-          </div>
-
-          {/* CTA row */}
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a href="/releases"
-              className="inline-flex items-center gap-3 bg-[#8FA9C4] text-[#04060A] px-8 py-4 font-mono text-[11px] tracking-[0.3em] uppercase hover:bg-[#A0C4E2] transition-colors rounded-full">
-              Listen Now →
-            </a>
-            <a href="/#contact"
-              className="inline-flex items-center gap-3 border border-[#3A609E] text-[#8FA9C4] px-8 py-4 font-mono text-[11px] tracking-[0.3em] uppercase hover:border-[#8FA9C4] hover:text-[#8FA9C4] transition-colors rounded-full">
-              Get in Touch
-            </a>
-          </div>
-        </div>
-
-        {/* Bottom scroll indicator */}
-        <div className="mt-auto pt-16 flex items-center gap-4 font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">
-          <div className="w-px h-12 bg-[#3A609E] relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full bg-[#8FA9C4] animate-pulse" />
-          </div>
-          <span className="text-[#8FA9C4]">Scroll to explore</span>
         </div>
       </div>
     </section>

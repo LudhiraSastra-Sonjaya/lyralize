@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import BandIntro from '../components/BandIntro';
 import About from '../components/About';
 import Releases from '../components/Releases';
 import Shows from '../components/Shows';
@@ -9,6 +10,7 @@ const Home = () => {
   return (
     <>
       <Hero />
+      <BandIntro />
 
       {/* Marquee divider */}
       <div className="bg-[#0E1A2F] border-y border-[#3A609E] py-4 overflow-hidden">

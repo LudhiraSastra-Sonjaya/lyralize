@@ -90,10 +90,10 @@ const Footer = () => {
                   </>
                 ) : (
                   <>
-                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">Instagram</a></li>
-                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">Spotify</a></li>
+                    <li><a href="https://www.instagram.com/lyralize/" className="link-underline hover:text-[#8FA9C4] transition-colors">Instagram</a></li>
+                    <li><a href="https://open.spotify.com/intl-id/artist/3lO2n4NxOlRrJOqX0U5B7a?si=09d8a863bd1149dc" className="link-underline hover:text-[#8FA9C4] transition-colors">Spotify</a></li>
                     <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">Apple Music</a></li>
-                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">TikTok</a></li>
+                    <li><a href="https://www.tiktok.com/@hellyeahlyra?is_from_webapp=1&sender_device=pc" className="link-underline hover:text-[#8FA9C4] transition-colors">TikTok</a></li>
                     <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">YouTube</a></li>
                   </>
                 )}
