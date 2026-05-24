@@ -1,0 +1,36 @@
+services:
+  backend:
+    build: ./backend
+    container_name: lyralize-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - database
+
+  frontend:
+    build: ./frontend
+    container_name: lyralize-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  database:
+    image: postgres:16
+    container_name: lyralize-database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: lyralize_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
