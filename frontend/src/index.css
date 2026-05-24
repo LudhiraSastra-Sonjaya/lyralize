@@ -29,36 +29,36 @@
   --font-mono:    "Space Mono", monospace;
 
   /* ── Palette: warm cream bg + deep royal blue text ── */
-  --color-night:    #F0EBE0;
-  --color-void:     #E8E2D0;
-  --color-surface:  #E2DBc8;
-  --color-border:   #C8C0A8;
-  --color-blue:     #1E3FA8;
-  --color-blue-hi:  #2A52C9;
-  --color-blue-lo:  #152E80;
-  --color-white:    #0C1B4D;
-  --color-offwhite: #0C1B4D;
-  --color-muted:    #4A6090;
-  --color-dim:      #D8D0BC;
+  --color-night:    #04060A;
+  --color-void:     #0E1A2F;
+  --color-surface:  #1A365D;
+  --color-border:   #3A609E;
+  --color-blue:     #8FA9C4;
+  --color-blue-hi:  #A0C4E2;
+  --color-blue-lo:  #5A7CA6;
+  --color-white:    #F0EBE0;
+  --color-offwhite: #F0EBE0;
+  --color-muted:    #8FA9C4;
+  --color-dim:      #1A2D4A;
 }
 
 @layer base {
   html, body {
-    background-color: #F0EBE0;
+    background-color: #04060A;
     overflow-x: hidden;
   }
   body {
     @apply bg-night font-mono;
-    color: #0C1B4D;
-    --tw-selection-bg: #1E3FA8;
-    --tw-selection-color: #F0EBE0;
+    color: #F0EBE0;
+    --tw-selection-bg: #8FA9C4;
+    --tw-selection-color: #04060A;
     font-size: 14px;
     line-height: 1.7;
     letter-spacing: 0.02em;
   }
   ::selection {
-    background: #1E3FA8;
-    color: #F0EBE0;
+    background: #8FA9C4;
+    color: #04060A;
   }
   /* Drowner Free for headings */
   h1, h2, h3, h4, h5, h6 {
@@ -120,8 +120,8 @@
   inset: -50%;
   width: 200%; height: 200vh;
   background-image:
-    radial-gradient(rgba(12,27,77,0.04) 1px, transparent 1px),
-    radial-gradient(rgba(12,27,77,0.025) 1px, transparent 1px);
+    radial-gradient(rgba(143,169,196,0.07) 1px, transparent 1px),
+    radial-gradient(rgba(143,169,196,0.04) 1px, transparent 1px);
   background-size: 3px 3px, 5px 5px;
   background-position: 0 0, 1px 1px;
   animation: grain 8s steps(10) infinite;
@@ -133,7 +133,7 @@
 .paper-vignette {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 40;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(200,192,168,0.5) 100%);
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(4,6,10,0.65) 100%);
 }
 
 /* ── Marquee ── */
@@ -151,8 +151,8 @@
 /* ── Blue pill badge ── */
 .blue-pill {
   display: inline-block;
-  background: #1E3FA8;
-  color: #F0EBE0;
+  background: #8FA9C4;
+  color: #04060A;
   border-radius: 9999px;
   padding: 0.35em 1.1em;
   font-family: "Space Mono", monospace;
@@ -163,7 +163,7 @@
 
 /* ── Blue card ── */
 .blue-card {
-  background: #12216B;
+  background: #1A365D;
   border-radius: 1.5rem;
 }
 
@@ -173,7 +173,7 @@
   position: absolute; inset: 0;
   background: repeating-linear-gradient(
     0deg, transparent, transparent 2px,
-    rgba(9,21,64,0.2) 2px, rgba(9,21,64,0.2) 4px
+    rgba(143,169,196,0.06) 2px, rgba(143,169,196,0.06) 4px
   );
   pointer-events: none;
 }
@@ -190,7 +190,7 @@
   transform: scale(0.9);
   transition: opacity 0.3s ease, transform 0.3s ease;
   filter: grayscale(0.3) brightness(0.85) contrast(1.1);
-  border: 1px solid #1D3180;
+  border: 1px solid #3A609E;
 }
 .portfolio-row-image.visible {
   opacity: 1;
@@ -230,7 +230,7 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 0.75rem;
-  border: 1px solid #C8C0A8;
+  border: 1px solid #3A609E;
 }
 .admin-table-wrap table {
   min-width: 560px;
@@ -239,8 +239,8 @@
 
 /* Admin modal — full height on small screens */
 .admin-modal {
-  background: #F0EBE0;
-  border: 1px solid #C8C0A8;
+  background: #04060A;
+  border: 1px solid #3A609E;
   border-radius: 0.75rem;
   width: 100%;
   max-width: 28rem;
@@ -267,16 +267,29 @@
 /* Make admin forms touch-friendly */
 .admin-input {
   width: 100%;
-  background: #E8E2D0;
-  border: 1px solid #C8C0A8;
+  background: #0E1A2F;
+  border: 1px solid #3A609E;
   border-radius: 0.5rem;
   padding: 0.625rem 1rem;
-  color: #0C1B4D;
+  color: #F0EBE0;
   font-family: 'Space Mono', monospace;
   font-size: 0.875rem;
   outline: none;
   transition: border-color 0.2s;
   -webkit-appearance: none;
 }
-.admin-input:focus { border-color: #1E3FA8; }
+.admin-input:focus { border-color: #8FA9C4; }
+
+/* ─── Infinite horizontal image marquee ─── */
+@keyframes imageMarquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-image-marquee {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: imageMarquee 20s linear infinite;
+}
+
 

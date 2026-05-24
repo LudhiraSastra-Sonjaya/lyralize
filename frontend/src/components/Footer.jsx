@@ -1,21 +1,36 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../services/api';
 
 const Footer = () => {
   const year = new Date().getFullYear();
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get('/band-profile');
+        setProfile(res.data);
+      } catch (e) {
+        console.error('Failed to fetch band profile in footer', e);
+      }
+    };
+    fetchProfile();
+  }, []);
 
   return (
-    <footer className="w-full bg-[#E2DBC8] border-t border-[#C8C0A8] pt-24 pb-10 relative overflow-hidden">
+    <footer className="w-full bg-[#1A365D] border-t border-[#3A609E] pt-24 pb-10 relative overflow-hidden">
       {/* Top marquee */}
-      <div className="absolute top-0 left-0 right-0 border-b border-[#C8C0A8] py-4 overflow-hidden bg-[#E8E2D0]">
-        <div className="marquee-track font-mono text-[11px] tracking-[0.3em] uppercase text-[#1E3FA8]">
+      <div className="absolute top-0 left-0 right-0 border-b border-[#3A609E] py-4 overflow-hidden bg-[#0E1A2F]">
+        <div className="marquee-track font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">
           {Array.from({ length: 12 }).map((_, i) => (
             <span key={i} className="flex items-center gap-8">
               Lyralize
-              <span className="text-[#1E3FA8]/30">✶</span>
+              <span className="text-[#8FA9C4]/30">✶</span>
               Shoegaze Collective
-              <span className="text-[#1E3FA8]/30">✶</span>
+              <span className="text-[#8FA9C4]/30">✶</span>
               Bandung · Indonesia
-              <span className="text-[#1E3FA8]/30">✶</span>
+              <span className="text-[#8FA9C4]/30">✶</span>
             </span>
           ))}
         </div>
@@ -26,16 +41,16 @@ const Footer = () => {
           {/* Left */}
           <div>
             <span className="section-label">// Connect</span>
-            <h2 className="cs-lg text-[#0C1B4D] leading-[1] mt-6 mb-6">
+            <h2 className="cs-lg text-[#F0EBE0] leading-[1] mt-6 mb-6">
               Drop into<br />
-              the <span className="text-[#1E3FA8]">void</span>.
+              the <span className="text-[#8FA9C4]">void</span>.
             </h2>
-            <p className="font-mono text-sm text-[#4A6090] leading-relaxed max-w-lg">
+            <p className="font-mono text-sm text-[#8FA9C4] leading-relaxed max-w-lg">
               For booking, press, collaborations, and anything in between.
               We exist somewhere between the feedback and the silence.
             </p>
             <a href="mailto:hello@lyralize.com"
-              className="inline-block mt-8 cs-sm text-[#0C1B4D] link-underline hover:text-[#1E3FA8] transition-colors leading-none">
+              className="inline-block mt-8 cs-sm text-[#F0EBE0] link-underline hover:text-[#8FA9C4] transition-colors leading-none">
               hello@lyralize.com
             </a>
           </div>
@@ -44,40 +59,62 @@ const Footer = () => {
           <div className="grid grid-cols-2 gap-8">
             <div>
               <span className="section-label">// Sitemap</span>
-              <ul className="mt-6 space-y-4 font-mono text-sm text-[#4A6090]">
-                <li><Link to="/" className="link-underline hover:text-[#1E3FA8] transition-colors">Home</Link></li>
-                <li><Link to="/releases" className="link-underline hover:text-[#1E3FA8] transition-colors">Releases</Link></li>
-                <li><Link to="/shows" className="link-underline hover:text-[#1E3FA8] transition-colors">Shows</Link></li>
-                <li><Link to="/gallery" className="link-underline hover:text-[#1E3FA8] transition-colors">Gallery</Link></li>
-                <li><Link to="/merch" className="link-underline hover:text-[#1E3FA8] transition-colors">Merch</Link></li>
+              <ul className="mt-6 space-y-4 font-mono text-sm text-[#8FA9C4]">
+                <li><Link to="/" className="link-underline hover:text-[#8FA9C4] transition-colors">Home</Link></li>
+                <li><Link to="/releases" className="link-underline hover:text-[#8FA9C4] transition-colors">Releases</Link></li>
+                <li><Link to="/shows" className="link-underline hover:text-[#8FA9C4] transition-colors">Shows</Link></li>
+                <li><Link to="/gallery" className="link-underline hover:text-[#8FA9C4] transition-colors">Gallery</Link></li>
+                <li><Link to="/merch" className="link-underline hover:text-[#8FA9C4] transition-colors">Merch</Link></li>
               </ul>
             </div>
             <div>
               <span className="section-label">// Elsewhere</span>
-              <ul className="mt-6 space-y-4 font-mono text-sm text-[#4A6090]">
-                <li><a href="#" className="link-underline hover:text-[#1E3FA8] transition-colors">Instagram</a></li>
-                <li><a href="#" className="link-underline hover:text-[#1E3FA8] transition-colors">Spotify</a></li>
-                <li><a href="#" className="link-underline hover:text-[#1E3FA8] transition-colors">YouTube</a></li>
-                <li><a href="#" className="link-underline hover:text-[#1E3FA8] transition-colors">Bandcamp</a></li>
-                <li><a href="#" className="link-underline hover:text-[#1E3FA8] transition-colors">SoundCloud</a></li>
+              <ul className="mt-6 space-y-4 font-mono text-sm text-[#8FA9C4]">
+                {profile ? (
+                  <>
+                    {profile.instagram_url && (
+                      <li><a href={profile.instagram_url} target="_blank" rel="noreferrer" className="link-underline hover:text-[#8FA9C4] transition-colors">Instagram</a></li>
+                    )}
+                    {profile.spotify_url && (
+                      <li><a href={profile.spotify_url} target="_blank" rel="noreferrer" className="link-underline hover:text-[#8FA9C4] transition-colors">Spotify</a></li>
+                    )}
+                    {profile.apple_music_url && (
+                      <li><a href={profile.apple_music_url} target="_blank" rel="noreferrer" className="link-underline hover:text-[#8FA9C4] transition-colors">Apple Music</a></li>
+                    )}
+                    {profile.tiktok_url && (
+                      <li><a href={profile.tiktok_url} target="_blank" rel="noreferrer" className="link-underline hover:text-[#8FA9C4] transition-colors">TikTok</a></li>
+                    )}
+                    {profile.youtube_url && (
+                      <li><a href={profile.youtube_url} target="_blank" rel="noreferrer" className="link-underline hover:text-[#8FA9C4] transition-colors">YouTube</a></li>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">Instagram</a></li>
+                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">Spotify</a></li>
+                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">Apple Music</a></li>
+                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">TikTok</a></li>
+                    <li><a href="#" className="link-underline hover:text-[#8FA9C4] transition-colors">YouTube</a></li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-[#C8C0A8] pt-6 flex flex-col md:flex-row justify-between items-center gap-4 font-mono text-[11px] tracking-[0.25em] uppercase text-[#4A6090]">
+        <div className="border-t border-[#3A609E] pt-6 flex flex-col md:flex-row justify-between items-center gap-4 font-mono text-[11px] tracking-[0.25em] uppercase text-[#8FA9C4]">
           <p>© {year} Lyralize. All frequencies reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-[#1E3FA8] transition-colors">Privacy</a>
-            <a href="#" className="hover:text-[#1E3FA8] transition-colors">Terms</a>
-            <Link to="/admin/login" className="hover:text-[#1E3FA8] transition-colors">Admin</Link>
+            <a href="#" className="hover:text-[#8FA9C4] transition-colors">Privacy</a>
+            <a href="#" className="hover:text-[#8FA9C4] transition-colors">Terms</a>
+            <Link to="/admin/login" className="hover:text-[#8FA9C4] transition-colors">Admin</Link>
           </div>
         </div>
       </div>
 
       {/* Watermark */}
-      <div className="absolute -bottom-8 md:-bottom-16 left-1/2 transform -translate-x-1/2 cs-hero text-[#1E3FA8]/[0.04] whitespace-nowrap pointer-events-none select-none leading-none">
+      <div className="absolute -bottom-8 md:-bottom-16 left-1/2 transform -translate-x-1/2 cs-hero text-[#8FA9C4]/[0.04] whitespace-nowrap pointer-events-none select-none leading-none">
         Lyralize
       </div>
     </footer>

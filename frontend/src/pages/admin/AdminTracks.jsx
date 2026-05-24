@@ -3,24 +3,24 @@ import { Plus, Edit2, Trash2, X } from 'lucide-react';
 import api from '../../services/api';
 
 const S = {
-  h1:'text-2xl font-mono font-bold text-[#0C1B4D]',
-  addBtn:'bg-[#1E3FA8] hover:bg-[#2A52C9] text-[#F0EBE0] px-4 py-2 rounded-lg flex items-center gap-2 transition-colors font-mono text-sm',
-  table:'bg-[#F0EBE0] border border-[#C8C0A8] rounded-xl overflow-hidden',
-  thead:'bg-[#C8C0A8]/30 text-[#0C1B4D]',th:'px-6 py-4 font-mono text-xs tracking-widest uppercase',
-  tbody:'divide-y divide-[#C8C0A8]',tr:'hover:bg-[#1E3FA8]/5 transition-colors',
-  td:'px-6 py-4 font-mono text-sm text-[#4A6090]',tdPrimary:'px-6 py-4 font-mono text-sm font-medium text-[#0C1B4D]',
-  tdRight:'px-6 py-4 text-right',empty:'px-6 py-8 text-center text-[#4A6090]/60 font-mono text-sm',
-  overlay:'fixed inset-0 bg-[#0C1B4D]/40 backdrop-blur-sm z-50 flex items-center justify-center p-4',
-  modal:'bg-[#F0EBE0] border border-[#C8C0A8] rounded-xl w-full max-w-md shadow-2xl max-h-[90vh] flex flex-col',
-  modalHead:'flex justify-between items-center p-6 border-b border-[#C8C0A8]',
-  modalH2:'text-xl font-mono font-bold text-[#0C1B4D]',
-  label:'block font-mono text-xs tracking-[0.2em] uppercase text-[#4A6090] mb-1',
-  input:'w-full bg-[#E8E2D0] border border-[#C8C0A8] focus:border-[#1E3FA8] rounded-lg px-4 py-2.5 text-[#0C1B4D] font-mono text-sm outline-none transition-colors',
-  cancelBtn:'flex-1 px-4 py-2 rounded-lg border border-[#C8C0A8] text-[#4A6090] hover:bg-[#C8C0A8]/20 font-mono text-sm transition-colors',
-  saveBtn:'flex-1 px-4 py-2 rounded-lg bg-[#1E3FA8] hover:bg-[#2A52C9] text-[#F0EBE0] font-mono text-sm transition-colors',
-  editBtn:'text-[#1E3FA8] hover:text-[#0C1B4D] p-2 transition-colors',
+  h1:'text-2xl font-mono font-bold text-[#F0EBE0]',
+  addBtn:'bg-[#8FA9C4] hover:bg-[#A0C4E2] text-[#04060A] px-4 py-2 rounded-lg flex items-center gap-2 transition-colors font-mono text-sm',
+  table:'bg-[#04060A] border border-[#3A609E] rounded-xl overflow-hidden',
+  thead:'bg-[#3A609E]/30 text-[#F0EBE0]',th:'px-6 py-4 font-mono text-xs tracking-widest uppercase',
+  tbody:'divide-y divide-[#3A609E]',tr:'hover:bg-[#8FA9C4]/5 transition-colors',
+  td:'px-6 py-4 font-mono text-sm text-[#8FA9C4]',tdPrimary:'px-6 py-4 font-mono text-sm font-medium text-[#F0EBE0]',
+  tdRight:'px-6 py-4 text-right',empty:'px-6 py-8 text-center text-[#8FA9C4]/60 font-mono text-sm',
+  overlay:'fixed inset-0 bg-[#F0EBE0]/40 backdrop-blur-sm z-50 flex items-center justify-center p-4',
+  modal:'bg-[#04060A] border border-[#3A609E] rounded-xl w-full max-w-md shadow-2xl max-h-[90vh] flex flex-col',
+  modalHead:'flex justify-between items-center p-6 border-b border-[#3A609E]',
+  modalH2:'text-xl font-mono font-bold text-[#F0EBE0]',
+  label:'block font-mono text-xs tracking-[0.2em] uppercase text-[#8FA9C4] mb-1',
+  input:'w-full bg-[#0E1A2F] border border-[#3A609E] focus:border-[#8FA9C4] rounded-lg px-4 py-2.5 text-[#F0EBE0] font-mono text-sm outline-none transition-colors',
+  cancelBtn:'flex-1 px-4 py-2 rounded-lg border border-[#3A609E] text-[#8FA9C4] hover:bg-[#3A609E]/20 font-mono text-sm transition-colors',
+  saveBtn:'flex-1 px-4 py-2 rounded-lg bg-[#8FA9C4] hover:bg-[#A0C4E2] text-[#04060A] font-mono text-sm transition-colors',
+  editBtn:'text-[#8FA9C4] hover:text-[#F0EBE0] p-2 transition-colors',
   delBtn:'text-red-400 hover:text-red-600 p-2 transition-colors',
-  loading:'font-mono text-sm text-[#4A6090] animate-pulse',
+  loading:'font-mono text-sm text-[#8FA9C4] animate-pulse',
 };
 
 const AdminTracks = () => {
@@ -98,7 +98,7 @@ const AdminTracks = () => {
           <div className="admin-modal">
             <div className={S.modalHead}>
               <h2 className={S.modalH2}>{editingId?'Edit Track':'Add Track'}</h2>
-              <button onClick={()=>setIsModalOpen(false)} className="text-[#4A6090] hover:text-[#0C1B4D]"><X size={24}/></button>
+              <button onClick={()=>setIsModalOpen(false)} className="text-[#8FA9C4] hover:text-[#F0EBE0]"><X size={24}/></button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div><label className={S.label}>Album</label>

@@ -33,12 +33,12 @@ const AdminLayout = () => {
   const SidebarContent = () => (
     <>
       {/* Logo */}
-      <div className="h-16 md:h-20 flex items-center px-6 border-b border-[#C8C0A8] shrink-0">
+      <div className="h-16 md:h-20 flex items-center px-6 border-b border-[#3A609E] shrink-0">
         <Link to="/admin" className="flex flex-col leading-none" onClick={() => setSidebarOpen(false)}>
-          <span className="text-[#0C1B4D]" style={{ fontFamily: '"Drowner Free", serif', fontSize: '1.5rem' }}>
+          <span className="text-[#F0EBE0]" style={{ fontFamily: '"Drowner Free", serif', fontSize: '1.5rem' }}>
             Lyralize
           </span>
-          <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-[#4A6090] mt-0.5">
+          <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-[#8FA9C4] mt-0.5">
             Control Room
           </span>
         </Link>
@@ -58,8 +58,8 @@ const AdminLayout = () => {
                 onClick={() => setSidebarOpen(false)}
                 className={`group flex items-center gap-3 px-3 py-2.5 rounded transition-colors ${
                   isActive
-                    ? 'bg-[#1E3FA8]/10 text-[#1E3FA8] border-l-2 border-[#1E3FA8]'
-                    : 'text-[#4A6090] hover:text-[#0C1B4D] hover:bg-[#0C1B4D]/5'
+                    ? 'bg-[#8FA9C4]/10 text-[#8FA9C4] border-l-2 border-[#8FA9C4]'
+                    : 'text-[#8FA9C4] hover:text-[#F0EBE0] hover:bg-[#F0EBE0]/5'
                 }`}
               >
                 <span className="font-mono text-[9px] opacity-40 shrink-0">// {item.num}</span>
@@ -72,10 +72,10 @@ const AdminLayout = () => {
       </div>
 
       {/* Logout */}
-      <div className="p-4 border-t border-[#C8C0A8] shrink-0">
+      <div className="p-4 border-t border-[#3A609E] shrink-0">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded text-[#4A6090] hover:text-red-600 hover:bg-red-50 transition-colors"
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded text-[#8FA9C4] hover:text-red-600 hover:bg-red-50 transition-colors"
         >
           <LogOut size={18} />
           <span className="font-mono text-sm">Logout</span>
@@ -85,23 +85,23 @@ const AdminLayout = () => {
   );
 
   return (
-    <div className="flex h-screen bg-[#F0EBE0] text-[#0C1B4D] overflow-hidden">
+    <div className="flex h-screen bg-[#04060A] text-[#F0EBE0] overflow-hidden">
 
       {/* ── Desktop Sidebar ── */}
-      <aside className="hidden md:flex w-64 bg-[#E8E2D0] border-r border-[#C8C0A8] flex-col shrink-0">
+      <aside className="hidden md:flex w-64 bg-[#0E1A2F] border-r border-[#3A609E] flex-col shrink-0">
         <SidebarContent />
       </aside>
 
       {/* ── Mobile Sidebar Overlay ── */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-[#0C1B4D]/30 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-[#F0EBE0]/30 backdrop-blur-sm md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      <aside className={`fixed top-0 left-0 z-50 h-full w-72 bg-[#E8E2D0] border-r border-[#C8C0A8] flex flex-col transform transition-transform duration-300 md:hidden ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed top-0 left-0 z-50 h-full w-72 bg-[#0E1A2F] border-r border-[#3A609E] flex flex-col transform transition-transform duration-300 md:hidden ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="absolute top-4 right-4">
-          <button onClick={() => setSidebarOpen(false)} className="text-[#4A6090] hover:text-[#0C1B4D] p-1">
+          <button onClick={() => setSidebarOpen(false)} className="text-[#8FA9C4] hover:text-[#F0EBE0] p-1">
             <X size={20} />
           </button>
         </div>
@@ -112,19 +112,19 @@ const AdminLayout = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
 
         {/* Header */}
-        <header className="h-16 md:h-20 bg-[#F0EBE0] border-b border-[#C8C0A8] flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
+        <header className="h-16 md:h-20 bg-[#04060A] border-b border-[#3A609E] flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
           <div className="flex items-center gap-3 min-w-0">
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden text-[#4A6090] hover:text-[#0C1B4D] p-1 shrink-0"
+              className="md:hidden text-[#8FA9C4] hover:text-[#F0EBE0] p-1 shrink-0"
             >
               <Menu size={22} />
             </button>
             <div className="min-w-0">
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#1E3FA8]">// Admin</span>
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#8FA9C4]">// Admin</span>
               <h2
-                className="text-[#0C1B4D] capitalize leading-none mt-0.5 truncate"
+                className="text-[#F0EBE0] capitalize leading-none mt-0.5 truncate"
                 style={{ fontFamily: '"Drowner Free", serif', fontSize: 'clamp(1.2rem, 3vw, 1.8rem)' }}
               >
                 {currentPage}
@@ -134,14 +134,14 @@ const AdminLayout = () => {
           <Link
             to="/"
             target="_blank"
-            className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#4A6090] hover:text-[#1E3FA8] transition-colors shrink-0 ml-4"
+            className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#8FA9C4] hover:text-[#8FA9C4] transition-colors shrink-0 ml-4"
           >
             View Site ↗
           </Link>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#E8E2D0]">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#0E1A2F]">
           <Outlet />
         </main>
       </div>
