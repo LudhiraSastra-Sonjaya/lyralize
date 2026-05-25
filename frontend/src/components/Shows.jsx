@@ -48,7 +48,6 @@ const Shows = () => {
           <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">// 04</span>
           <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">Tour Diary</span>
           <div className="flex-1 h-px bg-[#3A609E]" />
-          <span className="hidden md:block font-mono text-sm text-[#3A609E] select-none">ツアー</span>
         </div>
 
         {/* Title row */}

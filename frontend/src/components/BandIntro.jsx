@@ -26,7 +26,7 @@ const BandIntro = () => {
         
         {/* Left: Image */}
         <div className="w-full md:w-1/2 relative">
-          <div className="aspect-[4/4.5] overflow-hidden">
+          <div className="aspect-4/4.5 overflow-hidden">
             <img 
               src="/LyralizeManggung.jpg" 
               alt={bandName}
@@ -44,9 +44,15 @@ const BandIntro = () => {
             </span>
           </div>
           
-          <h2 className="cs-lg text-[#F0EBE0] leading-[1] mb-10">
-            {bandName}
-          </h2>
+          <img
+              src="/(LOGO) LYRA (WHITE).png"
+              alt={bandName}
+              className="h-auto w-[300px] drop-shadow-2xl"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'block';
+              }}
+          />
           
           <div className="space-y-6 font-mono text-sm md:text-base text-[#8FA9C4] leading-relaxed">
             <p>

@@ -19,7 +19,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="w-full bg-[#1A365D] border-t border-[#3A609E] pt-24 pb-10 relative overflow-hidden">
+    <footer className="w-full bg-[#04060A] border-t border-[#3A609E] pt-24 pb-10 relative overflow-hidden">
       {/* Top marquee */}
       <div className="absolute top-0 left-0 right-0 border-b border-[#3A609E] py-4 overflow-hidden bg-[#0E1A2F]">
         <div className="marquee-track font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">
@@ -27,9 +27,9 @@ const Footer = () => {
             <span key={i} className="flex items-center gap-8">
               Lyralize
               <span className="text-[#8FA9C4]/30">✶</span>
-              Shoegaze Collective
+              Lyralize
               <span className="text-[#8FA9C4]/30">✶</span>
-              Bandung · Indonesia
+              Lyralize
               <span className="text-[#8FA9C4]/30">✶</span>
             </span>
           ))}
@@ -111,11 +111,6 @@ const Footer = () => {
             <Link to="/admin/login" className="hover:text-[#8FA9C4] transition-colors">Admin</Link>
           </div>
         </div>
-      </div>
-
-      {/* Watermark */}
-      <div className="absolute -bottom-8 md:-bottom-16 left-1/2 transform -translate-x-1/2 cs-hero text-[#8FA9C4]/[0.04] whitespace-nowrap pointer-events-none select-none leading-none">
-        Lyralize
       </div>
     </footer>
   );

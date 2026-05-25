@@ -17,11 +17,11 @@ const Home = () => {
         <div className="marquee-track font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">
           {Array.from({ length: 14 }).map((_, i) => (
             <span key={i} className="flex items-center gap-8">
-              New Release
+              Lyralize
               <span className="text-[#8FA9C4]/30">✶</span>
-              Out Now
+              Lyralize
               <span className="text-[#8FA9C4]/30">✶</span>
-              Shoegaze · Dream Pop · Noise
+              Lyralize
               <span className="text-[#8FA9C4]/30">✶</span>
             </span>
           ))}
@@ -31,7 +31,7 @@ const Home = () => {
       <About />
       <Releases />
 
-      {/* Marquee divider */}
+      {/* Marquee divider 
       <div className="bg-[#0E1A2F] border-y border-[#3A609E] py-4 overflow-hidden">
         <div className="marquee-track font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]/50">
           {Array.from({ length: 14 }).map((_, i) => (
@@ -46,7 +46,8 @@ const Home = () => {
           ))}
         </div>
       </div>
-
+      */}
+      
       <Shows />
       <Gallery />
       <Contact />

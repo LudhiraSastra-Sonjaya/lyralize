@@ -37,7 +37,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="w-full bg-[#1A365D] py-32 md:py-48">
+    <section id="contact" ref={sectionRef} className="w-full bg-[#04060A] py-32 md:py-48">
       <div className="max-w-[1400px] mx-auto px-8 md:px-16">
 
         {/* Manifesto quote — like Brandin's big statement */}
@@ -54,8 +54,7 @@ const Contact = () => {
         <div className="flex items-center gap-6 mb-16 contact-reveal">
           <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">// 06</span>
           <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">Get in Touch</span>
-          <div className="flex-1 h-px bg-[#3A609E]" />
-          <span className="hidden md:block font-mono text-sm text-[#3A609E] select-none">コンタクト</span>
+          <div className="flex-1 h-px bg-[#04060A]" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
@@ -74,10 +73,9 @@ const Contact = () => {
               {[
                 { label: 'Booking',  value: 'booking@lyralize.com' },
                 { label: 'Press',    value: 'press@lyralize.com' },
-                { label: 'Location', value: 'Bandung, West Java, Indonesia' },
               ].map(({ label, value }) => (
                 <div key={label} className="border-t border-[#0A0F2E] pt-5">
-                  <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#1400FF]">// {label}</span>
+                  <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#5A6080]">// {label}</span>
                   <p className="font-mono text-base mt-2 text-[#E8EEFF]">{value}</p>
                 </div>
               ))}
@@ -124,7 +122,7 @@ const Contact = () => {
                   <label className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#5A6080]">// Subject</label>
                   <input type="text" name="subject" value={form.subject} onChange={handleChange}
                     placeholder="What's this about?"
-                    className="bg-transparent border-b border-[#0A0F2E] focus:border-[#1400FF] outline-none py-3 font-mono text-base text-[#E8EEFF] placeholder-[#5A6080]/50 transition-colors"
+                    className="bg-transparent border-b border-[#3A609E] outline-none py-3 font-mono text-base text-[#E8EEFF] placeholder-[#5A6080]/50 transition-colors"
                   />
                 </div>
 
@@ -132,7 +130,7 @@ const Contact = () => {
                   <label className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#5A6080]">// Message</label>
                   <textarea name="content" required rows={5} value={form.content} onChange={handleChange}
                     placeholder="Write your message here..."
-                    className="bg-transparent border-b border-[#0A0F2E] focus:border-[#1400FF] outline-none py-3 font-mono text-base text-[#E8EEFF] placeholder-[#5A6080]/50 transition-colors resize-none"
+                    className="bg-transparent border-b border-[#3A609E] outline-none py-3 font-mono text-base text-[#E8EEFF] placeholder-[#5A6080]/50 transition-colors resize-none"
                   />
                 </div>
 

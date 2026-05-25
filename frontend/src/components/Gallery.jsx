@@ -44,16 +44,6 @@ const Gallery = () => {
   return (
     <section ref={sectionRef} id="gallery" className="w-full h-screen bg-[#04060A] overflow-hidden flex items-center relative">
       {/* Header */}
-      <div className="absolute top-10 md:top-14 left-8 md:left-16 z-10">
-        <div className="flex items-center gap-6 mb-4">
-          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">// 05</span>
-          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[#8FA9C4]">Field Notes</span>
-        </div>
-        <h2 className="cs-md text-[#F0EBE0] leading-none">
-          On the <span className="text-[#8FA9C4]">road</span>.
-        </h2>
-      </div>
-
       <div className="absolute bottom-10 right-8 md:right-16 z-10 font-mono text-[10px] tracking-[0.25em] uppercase text-[#8FA9C4]">
         ← Scroll horizontally
       </div>

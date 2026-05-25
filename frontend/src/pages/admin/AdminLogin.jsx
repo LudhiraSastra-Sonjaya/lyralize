@@ -33,14 +33,6 @@ const AdminLogin = () => {
       {/* Soft blue glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#8FA9C4]/8 blur-[150px] pointer-events-none" />
 
-      {/* Watermark */}
-      <h1
-        className="absolute -bottom-8 md:-bottom-16 left-1/2 transform -translate-x-1/2 leading-none text-[#8FA9C4]/[0.05] pointer-events-none select-none whitespace-nowrap"
-        style={{ fontFamily: '"Drowner Free", serif', fontSize: 'clamp(8rem, 25vw, 22rem)' }}
-      >
-        Lyralize
-      </h1>
-
       <div className="w-full max-w-md bg-[#0E1A2F] border border-[#3A609E] p-10 relative z-10 shadow-[0_20px_80px_-20px_rgba(30,63,168,0.15)]">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">

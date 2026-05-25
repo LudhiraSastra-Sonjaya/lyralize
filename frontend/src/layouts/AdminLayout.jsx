@@ -35,12 +35,18 @@ const AdminLayout = () => {
       {/* Logo */}
       <div className="h-16 md:h-20 flex items-center px-6 border-b border-[#3A609E] shrink-0">
         <Link to="/admin" className="flex flex-col leading-none" onClick={() => setSidebarOpen(false)}>
-          <span className="text-[#F0EBE0]" style={{ fontFamily: '"Drowner Free", serif', fontSize: '1.5rem' }}>
-            Lyralize
-          </span>
-          <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-[#8FA9C4] mt-0.5">
-            Control Room
-          </span>
+          <img
+            src="/(LOGO) LYRA (WHITE).png"
+            alt="Lyralize Logo"
+            // h-5  : Ini ukuran tinggi logo di navbar untuk handphone (default)
+            // md:h-7: Ini ukuran tinggi logo di navbar untuk desktop (layar lebar)
+            className="h-8 md:h-10 w-auto object-contain"
+            onError={(e) => {
+              // Fallback jika logo gagal dimuat, tampilkan teks aslinya
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'block';
+            }}
+          />
         </Link>
       </div>
 
@@ -62,8 +68,6 @@ const AdminLayout = () => {
                     : 'text-[#8FA9C4] hover:text-[#F0EBE0] hover:bg-[#F0EBE0]/5'
                 }`}
               >
-                <span className="font-mono text-[9px] opacity-40 shrink-0">// {item.num}</span>
-                <span className="shrink-0">{item.icon}</span>
                 <span className="font-mono text-sm">{item.name}</span>
               </Link>
             );
