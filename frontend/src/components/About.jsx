@@ -169,7 +169,7 @@ const About = () => {
 
         {/* Members grid */}
         <div className="mt-20 grid grid-cols-3 md:grid-cols-5 gap-6 about-reveal">
-          {['Vocals', 'Guitar', 'Bass', 'Drums', 'Keys'].map((role, i) => (
+          {['Abizair Abrar', 'Fadhilla Maulana', 'Jauzaa Fachrie'].map((role, i) => (
             <div key={role} className="border-t border-[#3A609E] pt-4">
               <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#8FA9C4]">
                 // {String(i + 1).padStart(2, '0')}
